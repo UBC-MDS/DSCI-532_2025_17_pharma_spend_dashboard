@@ -2,18 +2,23 @@
 
 Visualization for Pharmaceutical Drug Spending by countries
 
-## Author
+## Contributors
+
 Jason Lee, Celine Habashy, Daria Khon, Catherine Meng
-
-## Installation
-
-```bash
-$ pip install pharma_cost_viz
-```
 
 ## Usage
 
-- TODO
+- First time running the project, running the following from the root of this repository:
+
+    ```{sh}
+    conda env create -f environment.yml
+    ```
+
+- Activate the conda environment:
+
+    ```{sh}
+    conda activate pharma_cost_viz
+    ```
 
 ## Contributing
 
