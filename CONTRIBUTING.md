@@ -1,81 +1,57 @@
-# Contributing
+# Contributing to project
 
-Contributions are welcome, and they are greatly appreciated! Every little bit
-helps, and credit will always be given.
+Thank you for considering contributing to our project! We welcome all contributions that help make this project better for everyone. Please read this guide to understand how you can help and how to do so effectively.
 
-## Types of Contributions
+### Fixing typos
 
-### Report Bugs
+Small typos or grammatical errors in documentation may be edited directly using the GitHub web interface, so long as the changes are made in the *source* file.
 
-If you are reporting a bug, please include:
+- YES: you edit a roxygen comment in a `.R` file below `R/`.
+- NO: you edit an `.Rd` file below `man/`.
 
-* Your operating system name and version.
-* Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug.
+### Prerequisites
 
-### Fix Bugs
+Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it's a problem. If you've found a bug, create an associated issue and illustrate the bug with a minimal [reprex](https://www.tidyverse.org/help/#reprex).
 
-Look through the GitHub issues for bugs. Anything tagged with "bug" and "help
-wanted" is open to whoever wants to implement it.
+### Reporting Bugs
 
-### Implement Features
+If you find a bug, please open an issue and include:
 
-Look through the GitHub issues for features. Anything tagged with "enhancement"
-and "help wanted" is open to whoever wants to implement it.
+1. A clear and descriptive title.
 
-### Write Documentation
+2. Steps to reproduce the problem.
 
-You can never have enough documentation! Please feel free to contribute to any
-part of the documentation, such as the official docs, docstrings, or even
-on the web in blog posts, articles, and such.
+3. Expected vs. actual results.
 
-### Submit Feedback
+4. Screenshots, if applicable.
 
-If you are proposing a feature:
+5. Information about your environment (e.g., OS, browser, or relevant tool versions).
 
-* Explain in detail how it would work.
-* Keep the scope as narrow as possible, to make it easier to implement.
-* Remember that this is a volunteer-driven project, and that contributions
-  are welcome :)
+### Suggesting Features
 
-## Get Started!
+To suggest a feature or enhancement:
 
-Ready to contribute? Here's how to set up `pharma_cost_viz` for local development.
+1. Check existing issues to avoid duplicates.
 
-1. Download a copy of `pharma_cost_viz` locally.
+2. Open a new issue with the label `feature request`.
 
-2. Create and activate a conda environment for `pharma_cost_viz`:
+3. Include:
 
-    ```console
-    $ conda create -n pharma_cost_viz python=3.12
-    $ conda activate pharma_cost_viz
-    ```
+    - A detailed description of the feature.
 
-3. Install `pharma_cost_viz` using `poetry`:
+    - Use cases and why it would be helpful.
 
-    ```console
-    $ poetry install
-    ```
+### Pull request process
 
-4. Use `git` (or similar) to create a branch for local development and make your changes:
+- We recommend that you create a Git branch for each pull request (PR).\
+- New code should follow the tidyverse [style guide](http://style.tidyverse.org). You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.\
+- We use [roxygen2](https://cran.r-project.org/package=roxygen2), with [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html), for documentation.\
+- We use [testthat](https://cran.r-project.org/package=testthat). Contributions with test cases included are easier to accept.\
 
-    ```console
-    $ git checkout -b name-of-your-bugfix-or-feature
-    ```
+### Code of Conduct
 
-5. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-6. Commit your changes and open a pull request.
+### Attribution
 
-## Pull Request Guidelines
-
-Before you submit a pull request, check that it meets these guidelines:
-
-1. The pull request should include additional tests if appropriate.
-2. If the pull request adds functionality, the docs should be updated.
-3. The pull request should work for all currently supported operating systems and versions of Python.
-
-## Code of Conduct
-
-Please note that the `pharma_cost_viz` project is released with a
-Code of Conduct. By contributing to this project you agree to abide by its terms.
+These contributing guidelines were adapted from the [dplyr contributing guidelines](https://github.com/tidyverse/dplyr/blob/master/.github/CONTRIBUTING.md).
