@@ -1,57 +1,61 @@
-# Contributing to project
+# Contributing
 
-Thank you for considering contributing to our project! We welcome all contributions that help make this project better for everyone. Please read this guide to understand how you can help and how to do so effectively.
+Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.
 
-### Fixing typos
+## Types of Contributions
 
-Small typos or grammatical errors in documentation may be edited directly using the GitHub web interface, so long as the changes are made in the *source* file.
+### Report Bugs
 
-- YES: you edit a roxygen comment in a `.R` file below `R/`.
-- NO: you edit an `.Rd` file below `man/`.
+If you are reporting a bug, please include:
 
-### Prerequisites
+* Your operating system name and version.
+* Any details about your local setup that might be helpful in troubleshooting.
+* Detailed steps to reproduce the bug.
+* Whether you would like to attempt fixing the bug yourself and a brief overview of how you would like to do so.
 
-Before you make a substantial pull request, you should always file an issue and make sure someone from the team agrees that it's a problem. If you've found a bug, create an associated issue and illustrate the bug with a minimal [reprex](https://www.tidyverse.org/help/#reprex).
+### Write Documentation
 
-### Reporting Bugs
+You can never have enough documentation! Please feel free to contribute to any
+part of the documentation, such as the official docs, docstrings, or even
+on the web in blog posts, articles, and such.
 
-If you find a bug, please open an issue and include:
+### Submit Feedback
 
-1. A clear and descriptive title.
+If you are proposing a feature:
 
-2. Steps to reproduce the problem.
+* Explain in detail how it would work.
+* Keep the scope as narrow as possible, to make it easier to implement.
+* Remember that this is a volunteer-driven project, and that contributions
+  are welcome :)
 
-3. Expected vs. actual results.
+## Get Started!
 
-4. Screenshots, if applicable.
+Ready to contribute? Here's how to set up `pharma_spend_dashboard` for local development.
 
-5. Information about your environment (e.g., OS, browser, or relevant tool versions).
+1. Follow the instructions in the [README file](https://github.com/UBC-MDS/Group24-pystats/blob/main/README.md) to install `pystats` on your machine.
+2. Use `git` (or similar) to create a branch for local development and make your changes:
 
-### Suggesting Features
+    ```console
+    $ git switch -c name-of-your-bugfix-or-feature
+    ```
 
-To suggest a feature or enhancement:
+3. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
 
-1. Check existing issues to avoid duplicates.
+4. Commit your changes and open a pull request.
 
-2. Open a new issue with the label `feature request`.
+## Pull Request Guidelines
 
-3. Include:
+Before you submit a pull request, check that it meets these guidelines:
 
-    - A detailed description of the feature.
+1. The pull request should include additional tests if appropriate.
+2. If the pull request adds functionality, the docs should be updated.
+3. The pull request should work for all currently supported operating systems and versions of Python.
 
-    - Use cases and why it would be helpful.
+## Code of Conduct
 
-### Pull request process
+Please note that this project is released with a Code of Conduct. 
+By contributing to this project you agree to abide by its terms. Please see the [Conduct File](https://github.com/UBC-MDS/Group24-pystats/blob/main/CONDUCT.md) for more details.
 
-- We recommend that you create a Git branch for each pull request (PR).\
-- New code should follow the tidyverse [style guide](http://style.tidyverse.org). You can use the [styler](https://CRAN.R-project.org/package=styler) package to apply these styles, but please don't restyle code that has nothing to do with your PR.\
-- We use [roxygen2](https://cran.r-project.org/package=roxygen2), with [Markdown syntax](https://cran.r-project.org/web/packages/roxygen2/vignettes/rd-formatting.html), for documentation.\
-- We use [testthat](https://cran.r-project.org/package=testthat). Contributions with test cases included are easier to accept.\
-
-### Code of Conduct
-
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
-
-### Attribution
-
-These contributing guidelines were adapted from the [dplyr contributing guidelines](https://github.com/tidyverse/dplyr/blob/master/.github/CONTRIBUTING.md).
+## Attribution
+This contribution template is adapted from the [py-pkgs-cookiecutter](https://py-pkgs-cookiecutter.readthedocs.io/en/latest/quickstart.html) default.
