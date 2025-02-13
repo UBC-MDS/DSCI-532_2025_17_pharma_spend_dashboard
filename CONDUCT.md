@@ -47,7 +47,7 @@ Participants who are asked to stop any inappropriate behavior are expected to co
 
 If someone violates the Code of Conduct during an event or in an online space outside of organized events, we ask that you report it to the instructor(s). The current instructor(s) of DSCI 532 is Joel Ostblom.
 
-For any concerns or reports, you may also reach out to the team via email at zhangj24@student.ubc.ca.
+For any concerns or reports, you may also reach out to the team via email at jasonmlee.career@gmail.com.
 
 ## Attribution
 
