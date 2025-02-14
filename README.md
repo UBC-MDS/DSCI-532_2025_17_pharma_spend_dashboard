@@ -1,4 +1,4 @@
-# Global Pharamaceutical Spendings Dashboard
+# Global Pharamaceutical Spending Dashboard
 
 Dashboard for visualization of pharmaceutical drug spendings across the world.
 
