@@ -36,3 +36,5 @@ Christine is currently drafting a tax policy on imported drugs. They opens a das
 3. **Geospatial Analysis:** they explore the distribution of pharmaceutical spending across different countries to identify high and low-expenditure regions and investigates their respective healthcare policies.
 
 Based on their findings Christine identifies Luxemburg as a country with lowest expenditures in the last 20 years, and creates a task for them to investigate Luxemburg's tax policies. Moreover, Christine has numeric data to support the growth in spendings in the last 20 years in Canada that would influence the 2026 tax policy.
+
+

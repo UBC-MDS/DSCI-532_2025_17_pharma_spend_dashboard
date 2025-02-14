@@ -1,4 +1,4 @@
-name: 'pharma_cost_viz'
+name: 'pharma_spend_dashboard'
 channels:
     - conda-forge
     - defaults
