@@ -12,10 +12,26 @@ Healthcare administrators worldwide are faced with the constant challenge of ens
 
 This **Global Pharmaceutical Spendings** dashboard is designed to assist healthcare administrators by transforming scattered worldwide information into decision-ready intelligence for daily decision-making. During periods of supply disruption, administrators can look at historical data to identify persistent vulnerabilities and find alternatives. For administrators who are preparing annual budgets, the dashboard provides a view of long-term trends in spending. Being able to see how Canadian drug costs have persistently increased relative to other countries gives a foundation for renegotiating agreements with drug suppliers or revising formulary guidelines.
 
-The **Global Pharmaceutical Spendings** dashboard addresses these challenges by providing an interactive platform that visualizes over 30 years of pharmaceutical expenditure data across 30+ countries to prioritize patient care outcomes. 
+The **Global Pharmaceutical Spendings** dashboard addresses these challenges by providing an interactive platform that visualizes over 40 years of pharmaceutical expenditure data across 30+ countries to prioritize patient care outcomes. 
 
 
 ## Description of Data
+We will be visualizing a dataset of pharmaceutical spending by country and year. 
+In total, there are 1036 rows and 7 columns. 
+In this dataset, pharmaceutical spending is represented in 4 different ways. 
+This gives health authorities a few different lenses to inspect how pharmaceutical spending in different countries has changed across different time horizons. 
+A short description for each variable in the dataset is provided below.
+
+LOCATION: Categorical variable that denotes the ISO country code. There are 36 countries in this data set.
+TIME: Denotes the year and spans from 1970 to 2016.
+PC_HEALTHXP: Percentage of pharmaceutical spending relative to healthcare spend
+PC_GDP: Percentage of pharmaceutical spending relative to country GDP
+USD_CAP: Pharmaceutical spending (in USD) per capita
+TOTAL_SPEND: Total pharmaceutical spending (in USD m)
+FLAG_CODES: This column was not clearly defined in the dataset. We will not use this column for the dashboard.
+
+Using this data we will also derive 4 new variables that will analyse the year on year percentage change in pharmaceutical spending (PC_HEALTHXP_PCT_CHANGE, PC_GDP_PCT_CHANGE, USD_CAP_PCT_CHANGE, TOTAL_SPEND_PCT_CHANGE) 
+We will also create a new categorical column called `COUNTRY_NAME` that will contain country names for better interpretability. 
 
 
 ## Research Questions
