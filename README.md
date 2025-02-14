@@ -3,7 +3,7 @@
 Dashboard for visualization of pharmaceutical drug spendings across the world.
 
 ## About
-The Global Pharmaceutical Spendings Dashboard aims to provide intuitive tools for healthcare policy administrators across the world to make knowlegeable decisions around drug price policies. This dashboard takes in the scattered worldwide information and presents it as a decision-ready intelligence for daily decision-making.
+The Global Pharmaceutical Spending Dashboard aims to provide intuitive tools for healthcare policy administrators across the world to make knowlegeable decisions around drug price policies. This dashboard takes in the scattered worldwide information and presents it as a decision-ready intelligence for daily decision-making.
 
 This project is based on [Kaggle Pharmaceutical Drug Spending by countries](https://www.kaggle.com/datasets/tunguz/pharmaceutical-drug-spending-by-countries/data) data set, which originated from Organisation for Economic Co-operation and Development (OECD) collected data. With the data capped at 2016, this dashboard architechture can be easily integrated into a new data set.
 
