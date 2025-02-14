@@ -1,6 +1,6 @@
-# Global Pharamaceutical Spendings Dashbaord
+# Global Pharamaceutical Spendings Dashboard
 
-Dashboard for visualization pharmaceutical grug spendings across the world.
+Dashboard for visualization of pharmaceutical drug spendings across the world.
 
 ## About
 The Global Pharmaceutical Spendings Dashboard aims to provide intuitive tools for healthcare policy administrators across the world to make knowlegeable decisions around drug price policies. This dashboard takes in the scattered worldwide information and presents it as a decision-ready intelligence for daily decision-making.
