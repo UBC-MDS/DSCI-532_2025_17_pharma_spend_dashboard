@@ -1,4 +1,4 @@
-# Milestone 1 Proposal: Global Pharamaceutrical Spendings
+# Milestone 1 Proposal: Global Pharamaceutical Spending
 
 Group 17: Jason Lee, Celine Habashy, Daria Khon, Catherine Meng
 
@@ -19,18 +19,24 @@ The **Global Pharmaceutical Spendings** dashboard addresses these challenges by 
 We will be visualizing a dataset of pharmaceutical spending by country and year. 
 In total, there are 1036 rows and 7 columns. 
 In this dataset, pharmaceutical spending is represented in 4 different ways. 
-This gives health authorities a few different lenses to inspect how pharmaceutical spending in different countries has changed across different time horizons. 
+This gives health administrators a few different lenses to inspect how pharmaceutical spending in different countries has changed across different time horizons. 
 A short description for each variable in the dataset is provided below.
 
-LOCATION: Categorical variable that denotes the ISO country code. There are 36 countries in this data set.
-TIME: Denotes the year and spans from 1970 to 2016.
-PC_HEALTHXP: Percentage of pharmaceutical spending relative to healthcare spend
-PC_GDP: Percentage of pharmaceutical spending relative to country GDP
-USD_CAP: Pharmaceutical spending (in USD) per capita
-TOTAL_SPEND: Total pharmaceutical spending (in USD m)
-FLAG_CODES: This column was not clearly defined in the dataset. We will not use this column for the dashboard.
+- LOCATION: Categorical variable that denotes the ISO country code. There are 36 countries in this data set.
+- TIME: Denotes the year and spans from 1970 to 2016.
+- PC_HEALTHXP: Percentage of pharmaceutical spending relative to healthcare spend
+- PC_GDP: Percentage of pharmaceutical spending relative to country GDP
+- USD_CAP: Pharmaceutical spending (in USD) per capita
+- TOTAL_SPEND: Total pharmaceutical spending (in USD m)
+- FLAG_CODES: This column was not clearly defined in the dataset. We will not use this column for the dashboard.
 
-Using this data we will also derive 4 new variables that will analyse the year on year percentage change in pharmaceutical spending (PC_HEALTHXP_PCT_CHANGE, PC_GDP_PCT_CHANGE, USD_CAP_PCT_CHANGE, TOTAL_SPEND_PCT_CHANGE) 
+Using this data we will also derive 4 new variables that will analyse the year on year percentage change in pharmaceutical spending:
+
+- PC_HEALTHXP_PCT_CHANGE
+- PC_GDP_PCT_CHANGE
+- USD_CAP_PCT_CHANGE
+- TOTAL_SPEND_PCT_CHANGE
+  
 We will also create a new categorical column called `COUNTRY_NAME` that will contain country names for better interpretability. 
 
 
