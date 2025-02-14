@@ -19,6 +19,8 @@ Jason Lee, Celine Habashy, Daria Khon, Catherine Meng
     ```{sh}
     conda activate pharma_cost_viz
     ```
+    
+- To start the application from the root directory, run `python src/app.py `, Your application is running on `http://127.0.0.1:8050/`
 
 ## Contributing
 
