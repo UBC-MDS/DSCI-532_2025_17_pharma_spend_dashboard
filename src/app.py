@@ -6,6 +6,7 @@ import altair as alt
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 
 data = pd.read_csv("../data/raw/data.csv")
 
@@ -154,5 +155,5 @@ def create_chart(country_select, spend_metric):
     return chart1.to_dict(), chart2.to_dict(), chart3.to_dict(), chart4.to_dict()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
