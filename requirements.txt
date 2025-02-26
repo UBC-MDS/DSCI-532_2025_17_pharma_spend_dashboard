@@ -8,4 +8,4 @@ vegafusion==2.0.1
 vegafusion-python-embed==1.6.9
 vl-convert-python==1.7.0
 Flask==3.0.0
-Werkzeug==3.1.3 
+Werkzeug==3.0.0
