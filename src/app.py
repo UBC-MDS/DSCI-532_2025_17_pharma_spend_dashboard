@@ -8,7 +8,7 @@ import altair as alt
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
-data = pd.read_csv("../data/raw/data.csv")
+data = pd.read_csv("data/raw/data.csv")
 
 # Side bar for global filter
 sidebar = dbc.Col([
