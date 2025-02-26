@@ -37,7 +37,7 @@ sidebar = dbc.Col([
 
 card_style = {'height': '100px'}
 
-# Summary status
+# Summary status (Celine)
 summary = dbc.Row(
     [
         html.H5('Summary Stats'),
@@ -74,14 +74,14 @@ summary = dbc.Row(
 
 #Metric Selector
 metric_selection = dcc.RadioItems(
-    id="radio-buttons",
+    id="spend_metric",
     options=[
-        {"label": "Avg % GDP", "value": "gdp"},
-        {"label": "% of Healthcare", "value": "healthcare"},
-        {"label": "Per Capita", "value": "per_capita"},
-        {"label": "Total Spend", "value": "total_spend"},
+        {"label": "Avg % GDP", "value": "PC_GDP"},
+        {"label": "% of Healthcare", "value": "PC_HEALTHXP"},
+        {"label": "USD Per Capita", "value": "USD_CAP"},
+        {"label": "Total Spend", "value": "TOTAL_SPEND"},
     ],
-    value="total_spend",  # Default selection
+    value="TOTAL_SPEND",  # Default selection
     labelStyle={'display': 'inline-block', 'margin-right': '15px'}
 )
 
@@ -119,31 +119,36 @@ app.layout = dbc.Container(
     Output('chart2', 'spec'),
     Output('chart3', 'spec'),
     Output('chart4', 'spec'),
-    Input('country_select', 'value') 
+    Input('country_select', 'value'),
+    Input('spend_metric', 'value') 
     #Add one more input that controls Year (Daria)
 )
-def create_chart(country_select):
+def create_chart(country_select, spend_metric):
     filtered_data = data[data['LOCATION'].isin(country_select)]
 
+    # Map Plot (Daria)
     chart1 = alt.Chart(filtered_data).mark_point().encode(
             x='TIME',
-            y='TOTAL_SPEND',
+            y=spend_metric,
             color='LOCATION')
 
+    # Time Series Chart (Jason)
     chart2 = alt.Chart(filtered_data).mark_line().encode(
             x='TIME',
-            y='TOTAL_SPEND',
+            y=spend_metric,
             color='LOCATION')
     
+    # Bar Chart (Celine)
     chart3 = alt.Chart(filtered_data).mark_point().encode(
             x='TIME',
-            y='PC_GDP',
+            y=spend_metric,
             color='LOCATION'
         )
 
+    # Pie Chart (Catherine)
     chart4 = alt.Chart(filtered_data).mark_point().encode(
             x='TIME',
-            y='PC_HEALTHXP',
+            y=spend_metric,
             color='LOCATION'
         )
     return chart1.to_dict(), chart2.to_dict(), chart3.to_dict(), chart4.to_dict()
