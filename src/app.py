@@ -1,9 +1,14 @@
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc, callback, Output, Input
 import dash_bootstrap_components as dbc
+import dash_vega_components as dvc
+import pandas as pd
+import altair as alt
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
+
+data = pd.read_csv("data/raw/data.csv")
 
 # Side bar for global filter
 sidebar = dbc.Col([
@@ -11,7 +16,7 @@ sidebar = dbc.Col([
     html.Br(),
 
     html.H5('Country'),
-    dcc.Dropdown(),
+    dcc.Dropdown(id='country_select', options=[{'label': country, 'value': country} for country in data['LOCATION'].unique()], value=['CAN', 'USA', 'MEX'], multi=True),
     html.Br(),
 
     html.H5('Year'),
@@ -33,7 +38,7 @@ sidebar = dbc.Col([
 
 card_style = {'height': '100px'}
 
-# Summary status
+# Summary status (Celine)
 summary = dbc.Row(
     [
         html.H5('Summary Stats'),
@@ -68,20 +73,87 @@ summary = dbc.Row(
     }
 )
 
+#Metric Selector
+metric_selection = dcc.RadioItems(
+    id="spend_metric",
+    options=[
+        {"label": "Avg % GDP", "value": "PC_GDP"},
+        {"label": "% of Healthcare", "value": "PC_HEALTHXP"},
+        {"label": "USD Per Capita", "value": "USD_CAP"},
+        {"label": "Total Spend", "value": "TOTAL_SPEND"},
+    ],
+    value="TOTAL_SPEND",  # Default selection
+    labelStyle={'display': 'inline-block', 'margin-right': '15px'}
+)
+
+# Charts
+line_chart1 = dvc.Vega(id="chart1", spec={})
+line_chart2 = dvc.Vega(id="chart2", spec={})
+line_chart3 = dvc.Vega(id="chart3", spec={})
+line_chart4 = dvc.Vega(id="chart4", spec={})
+
 # App layout
 app.layout = dbc.Container(
     [
         dbc.Row([
-            sidebar,
-            dbc.Col(summary)
-        ]),
+            dbc.Col(sidebar, width=3),
+            dbc.Col([
+                summary,
+                dbc.Row(metric_selection),
+                dbc.Row([
+                    dbc.Col(line_chart1, width=6),
+                    dbc.Col(line_chart2, width=6)
+                ]),
+                dbc.Row([
+                    dbc.Col(line_chart3, width=6),
+                    dbc.Col(line_chart4, width=6)
+                ])
+            ], width=9)
+        ])
     ],
-    fluid=True, # Expand to the full width of the window
-    style={
-        'padding': 0
-    }  
+    fluid=True,
+    style={'padding': 0, 'margin': '10px'}
 )
 
+@callback(
+    Output('chart1', 'spec'),
+    Output('chart2', 'spec'),
+    Output('chart3', 'spec'),
+    Output('chart4', 'spec'),
+    Input('country_select', 'value'),
+    Input('spend_metric', 'value') 
+    #Add one more input that controls Year (Daria)
+)
+def create_chart(country_select, spend_metric):
+    filtered_data = data[data['LOCATION'].isin(country_select)]
+
+    # Map Plot (Daria)
+    chart1 = alt.Chart(filtered_data).mark_point().encode(
+            x='TIME',
+            y=spend_metric,
+            color='LOCATION')
+
+    # Time Series Chart (Jason)
+    chart2 = alt.Chart(filtered_data).mark_line().encode(
+            x='TIME',
+            y=spend_metric,
+            color='LOCATION')
+    
+    # Bar Chart (Celine)
+    chart3 = alt.Chart(filtered_data).mark_point().encode(
+            x='TIME',
+            y=spend_metric,
+            color='LOCATION'
+        )
+
+    # Pie Chart (Catherine)
+    chart4 = alt.Chart(filtered_data).mark_point().encode(
+            x='TIME',
+            y=spend_metric,
+            color='LOCATION'
+        )
+    return chart1.to_dict(), chart2.to_dict(), chart3.to_dict(), chart4.to_dict()
 
 if __name__ == '__main__':
     app.run()
+
