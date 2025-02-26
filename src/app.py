@@ -72,41 +72,24 @@ summary = dbc.Row(
     }
 )
 
+#Metric Selector
+metric_selection = dcc.RadioItems(
+    id="radio-buttons",
+    options=[
+        {"label": "Avg % GDP", "value": "gdp"},
+        {"label": "% of Healthcare", "value": "healthcare"},
+        {"label": "Per Capita", "value": "per_capita"},
+        {"label": "Total Spend", "value": "total_spend"},
+    ],
+    value="total_spend",  # Default selection
+    labelStyle={'display': 'inline-block', 'margin-right': '15px'}
+)
+
 # Charts
 line_chart1 = dvc.Vega(id="chart1", spec={})
 line_chart2 = dvc.Vega(id="chart2", spec={})
-
-chart3 = alt.Chart(data).mark_point().encode(
-    x='TIME',
-    y='PC_GDP'
-)
-line_chart3 = dvc.Vega(spec=chart3.to_dict())
-
-chart4 = alt.Chart(data).mark_point().encode(
-    x='TIME',
-    y='PC_HEALTHXP'
-)
-line_chart4 = dvc.Vega(spec=chart4.to_dict())
-
-@callback(
-    Output('chart1', 'spec'),
-    Output('chart2', 'spec'),
-    Input('country_select', 'value') #Add one more input that controls Year
-)
-def create_chart(country_select):
-    filtered_data = data[data['LOCATION'].isin(country_select)]
-
-    chart1 = alt.Chart(filtered_data).mark_point().encode(
-            x='TIME',
-            y='TOTAL_SPEND',
-            color='LOCATION')
-
-    chart2 = alt.Chart(filtered_data).mark_line().encode(
-            x='TIME',
-            y='TOTAL_SPEND', #Radio button to control this
-            color='LOCATION')
-
-    return chart1.to_dict(), chart2.to_dict()
+line_chart3 = dvc.Vega(id="chart3", spec={})
+line_chart4 = dvc.Vega(id="chart4", spec={})
 
 # App layout
 app.layout = dbc.Container(
@@ -115,6 +98,7 @@ app.layout = dbc.Container(
             dbc.Col(sidebar, width=3),
             dbc.Col([
                 summary,
+                dbc.Row(metric_selection),
                 dbc.Row([
                     dbc.Col(line_chart1, width=6),
                     dbc.Col(line_chart2, width=6)
@@ -130,6 +114,40 @@ app.layout = dbc.Container(
     style={'padding': 0, 'margin': '10px'}
 )
 
+@callback(
+    Output('chart1', 'spec'),
+    Output('chart2', 'spec'),
+    Output('chart3', 'spec'),
+    Output('chart4', 'spec'),
+    Input('country_select', 'value') 
+    #Add one more input that controls Year (Daria)
+)
+def create_chart(country_select):
+    filtered_data = data[data['LOCATION'].isin(country_select)]
+
+    chart1 = alt.Chart(filtered_data).mark_point().encode(
+            x='TIME',
+            y='TOTAL_SPEND',
+            color='LOCATION')
+
+    chart2 = alt.Chart(filtered_data).mark_line().encode(
+            x='TIME',
+            y='TOTAL_SPEND',
+            color='LOCATION')
+    
+    chart3 = alt.Chart(filtered_data).mark_point().encode(
+            x='TIME',
+            y='PC_GDP',
+            color='LOCATION'
+        )
+
+    chart4 = alt.Chart(filtered_data).mark_point().encode(
+            x='TIME',
+            y='PC_HEALTHXP',
+            color='LOCATION'
+        )
+    return chart1.to_dict(), chart2.to_dict(), chart3.to_dict(), chart4.to_dict()
 
 if __name__ == '__main__':
     app.run(debug=True)
+
