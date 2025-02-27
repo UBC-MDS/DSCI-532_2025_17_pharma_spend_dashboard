@@ -169,15 +169,17 @@ def update_end_year_select_options(start, end):
     Input('country_select', 'value'),
     Input('start_year_select', 'value'),
     Input('end_year_select', 'value'),
-    Input('spend_metric', 'value')
+    Input('spend_metric', 'value'),
+    Input('spend_metric', 'options')
 )
-def create_chart(country_select, start_year_select, end_year_select, spend_metric):
+def create_chart(country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
     filtered_data = data[
         data['LOCATION'].isin(country_select) &  # Filter by selected countries
         data['TIME'].between(start_year_select, end_year_select)  # Filter TIME between years
     ]
     # Get average data group by country and year
     avg_data = filtered_data.groupby('LOCATION')[spend_metric].mean().reset_index()
+    spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
 
     # Map Plot (Daria)
     map_chart = alt.Chart(filtered_data).mark_point().encode(
@@ -206,7 +208,7 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
         color=alt.Color(field='LOCATION', type='nominal'),
         tooltip=['LOCATION', spend_metric]
     ).properties(
-        title=f'Average {spend_metric} by Country'
+        title=f'Average {spend_metric_label} by Country'
     )
 
     return map_chart.to_dict(), timeseries_chart.to_dict(), bar_chart.to_dict(), pie_chart.to_dict()
