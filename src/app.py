@@ -8,22 +8,45 @@ import altair as alt
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
+# Data preprocessing
 data = pd.read_csv("data/raw/data.csv")
+data = data.drop("FLAG_CODES", axis=1)
+
+locations = data['LOCATION'].unique()
+times = sorted(data['TIME'].unique()) # integer type
+min_year = data['TIME'].min()
+max_year = data['TIME'].max()
 
 # Side bar for global filter
-sidebar = dbc.Col([
-    html.H3('Global Pharmaceutical Spend Dashboard'),
-    html.Br(),
+sidebar = dbc.Col(
+    [
+        html.H3('Global Pharmaceutical Spend Dashboard'),
+        html.Br(),
 
-    html.H5('Country'),
-    dcc.Dropdown(id='country_select', options=[{'label': country, 'value': country} for country in data['LOCATION'].unique()], value=['CAN', 'USA', 'MEX'], multi=True),
-    html.Br(),
+        html.H5('Country'),
+        dcc.Dropdown(
+            id='country_select', 
+            options=[{'label': country, 'value': country} for country in locations], 
+            value=['CAN', 'USA', 'MEX'], 
+            multi=True
+        ),
+        html.Br(),
 
-    html.H5('Year'),
-    html.P('From', style={'margin-bottom': '0.375rem'}),
-    dcc.Dropdown(),
-    html.P('To', style={'margin-top': '0.375rem'}),
-    dcc.Dropdown(),
+        html.H5('Year'),
+        html.P('From', style={'margin-bottom': '0.375rem'}),
+        dcc.Dropdown(
+            id="start_year_select",
+            options=[{"label": str(year), "value": year} for year in times],
+            value=data['TIME'].min(),  # Default start by the minimal year
+            clearable=False
+        ),
+        html.P('To', style={'margin-top': '0.375rem'}),
+        dcc.Dropdown(
+            id="end_year_select",
+            options=[{"label": str(year), "value": year} for year in times],
+            value=data['TIME'].max(),  # Default end by the maximum year
+            clearable=False
+        )
     ],
     md=3,
     style={
@@ -73,7 +96,7 @@ summary = dbc.Row(
     }
 )
 
-#Metric Selector
+# Metric Selector
 metric_selection = dcc.RadioItems(
     id="spend_metric",
     options=[
@@ -87,10 +110,10 @@ metric_selection = dcc.RadioItems(
 )
 
 # Charts
-line_chart1 = dvc.Vega(id="chart1", spec={})
-line_chart2 = dvc.Vega(id="chart2", spec={})
-line_chart3 = dvc.Vega(id="chart3", spec={})
-line_chart4 = dvc.Vega(id="chart4", spec={})
+map_chart = dvc.Vega(id="map_chart", spec={})
+timeseries_chart = dvc.Vega(id="timeseries_chart", spec={})
+bar_chart = dvc.Vega(id="bar_chart", spec={})
+pie_chart = dvc.Vega(id="pie_chart", spec={})
 
 # App layout
 app.layout = dbc.Container(
@@ -101,12 +124,12 @@ app.layout = dbc.Container(
                 summary,
                 dbc.Row(metric_selection),
                 dbc.Row([
-                    dbc.Col(line_chart1, width=6),
-                    dbc.Col(line_chart2, width=6)
+                    dbc.Col(map_chart, width=6),
+                    dbc.Col(timeseries_chart, width=6)
                 ]),
                 dbc.Row([
-                    dbc.Col(line_chart3, width=6),
-                    dbc.Col(line_chart4, width=6)
+                    dbc.Col(bar_chart, width=6),
+                    dbc.Col(pie_chart, width=6)
                 ])
             ], width=9)
         ])
@@ -115,11 +138,28 @@ app.layout = dbc.Container(
     style={'padding': 0, 'margin': '10px'}
 )
 
+@app.callback(
+    Output("end_year_select", "options"),
+    Output("end_year_select", "value"),
+    Input("start_year_select", "value"),
+    Input("end_year_select", "value"),
+)
+def update_end_year_select_options(start, end):
+    # Ensure that the end year value cannot older than the start year
+    # Filter years that are greater than or equal to start_year
+    filtered_years = [year for year in times if year >= start]
+    options = [{"label": str(year), "value": year} for year in filtered_years]
+
+    # Ensure the selected end year remains valid
+    default_end_year = end if end in filtered_years else filtered_years[0]
+
+    return options, default_end_year
+
 @callback(
-    Output('chart1', 'spec'),
-    Output('chart2', 'spec'),
-    Output('chart3', 'spec'),
-    Output('chart4', 'spec'),
+    Output('map_chart', 'spec'),
+    Output('timeseries_chart', 'spec'),
+    Output('bar_chart', 'spec'),
+    Output('pie_chart', 'spec'),
     Input('country_select', 'value'),
     Input('spend_metric', 'value') 
     #Add one more input that controls Year (Daria)
