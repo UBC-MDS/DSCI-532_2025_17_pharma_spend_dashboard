@@ -4,6 +4,9 @@ import dash_vega_components as dvc
 import pandas as pd
 import geopandas as gpd
 import altair as alt
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from preprocessing import preprocess
 
 # Initiatlize the app
