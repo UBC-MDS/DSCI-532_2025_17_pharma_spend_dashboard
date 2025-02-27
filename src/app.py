@@ -2,15 +2,18 @@ from dash import Dash, html, dcc, callback, Output, Input
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
+import geopandas as gpd
 import altair as alt
+from preprocessing import preprocess
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Data preprocessing
-data = pd.read_csv('data/raw/data.csv')
-data = data.drop('FLAG_CODES', axis=1)
+# data = pd.read_csv('data/processed/data.csv')
+# data = data.drop('FLAG_CODES', axis=1)
+data = preprocess("data/raw/data.csv")
 
 locations = data['LOCATION'].unique()
 times = sorted(data['TIME'].unique()) # integer type
@@ -182,11 +185,27 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
 
     # Map Plot (Daria)
-    map_chart = alt.Chart(filtered_data).mark_point().encode(
-        x='TIME',
-        y=spend_metric,
-        color='LOCATION'
+    filtered_data_merged = pd.merge(
+        data[['LOCATION', 'geometry']], 
+        avg_data, 
+        on='LOCATION', 
+        how='inner'
     )
+    
+    map = alt.Chart(data, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()
+     
+    # color_scale = alt.Scale(
+    #     domain=[0, avg_data[spend_metric].max()],
+    #     range=['#D3D3D3', 'blue'] # Gray to blue
+    # )
+    
+    chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
+        color = alt.Color(
+            spend_metric,
+            scale = alt.Scale(scheme='blues'),
+            legend=alt.Legend(title=f'Average {spend_metric_label}')
+        ))
+    map_chart = map + chart
 
     # Time Series Chart (Jason)
     timeseries_chart = alt.Chart(filtered_data).mark_line().encode(
