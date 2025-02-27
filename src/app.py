@@ -233,7 +233,7 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
         title=f'Average {spend_metric_label} by Country'
     )
 
-    return map_chart.to_dict(), timeseries_chart.to_dict(), bar_chart.to_dict(), pie_chart.to_dict()
+    return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"), pie_chart.to_dict(format="vega")
 
 if __name__ == '__main__':
     app.run()
