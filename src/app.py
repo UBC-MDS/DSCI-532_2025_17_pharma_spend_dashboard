@@ -108,7 +108,7 @@ metric_selection = dbc.Row(
                     {'label': 'Total Spend', 'value': 'TOTAL_SPEND'},
                 ],
                 value='TOTAL_SPEND',  # Default selection
-                labelStyle={'display': 'inline-block', 'marginRight': '15px'}
+                labelStyle={'display': 'inline-block', 'marginRight': '0.938rem'}
             ),
         )
     ],
@@ -137,11 +137,11 @@ app.layout = dbc.Container(
                     dbc.Col(bar_chart, width=6),
                     dbc.Col(pie_chart, width=6)
                 ])
-            ], style = {'paddingLeft': '1.25rem'})
+            ], style = {'paddingLeft': '1.25rem', 'paddingTop': '0.625rem'})
         ])
     ],
     fluid=True,
-    style={'padding': 0, 'margin': '0.625rem'}
+    style={'padding': 0}
 )
 
 @app.callback(
