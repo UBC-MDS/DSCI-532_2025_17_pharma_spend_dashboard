@@ -17,12 +17,14 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Data preprocessing
-data, locations = preprocess("data/raw/data.csv")
+data, origin_data = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
 print(data.head())
-times = sorted(data['TIME'].unique()) # integer type
-min_year = data['TIME'].min()
-max_year = data['TIME'].max()
+# get the locations and years from the original dataset
+locations = origin_data['LOCATION'].unique()
+times = sorted(origin_data['TIME'].unique()) # integer type
+min_year = origin_data['TIME'].min()
+max_year = origin_data['TIME'].max()
 
 # Side bar for global filter
 sidebar = dbc.Col(
@@ -44,14 +46,14 @@ sidebar = dbc.Col(
         dcc.Dropdown(
             id='start_year_select',
             options=[{'label': str(year), 'value': year} for year in times],
-            value=data['TIME'].min(),  # Default start by the minimal year
+            value=min_year,  # Default start by the minimal year
             clearable=False
         ),
         html.P('To', style={'marginTop': '0.375rem'}),
         dcc.Dropdown(
             id='end_year_select',
             options=[{'label': str(year), 'value': year} for year in times],
-            value=data['TIME'].max(),  # Default end by the maximum year
+            value=max_year,  # Default end by the maximum year
             clearable=False
         )
     ],

@@ -33,9 +33,7 @@ def preprocess(file_path):
     
     # merge the geolocation data to the original dataset
     processed_data = pd.merge(world_countries, data, how='left', on='LOCATION')
-    # get the locations from the original dataset
-    locations = data['LOCATION'].unique()
 
     print("Data Preprocessing Success!")
 
-    return processed_data, locations
+    return processed_data, data
