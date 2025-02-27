@@ -196,7 +196,11 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
         avg_data, 
         on='LOCATION', 
         how='inner'
-    )    
+    )
+    # More efficient for large data sets
+    alt.data_transformers.enable('vegafusion')
+    print("Finish preparing map data!")   
+    print(filtered_data_merged.head())  
     map = alt.Chart(data, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
