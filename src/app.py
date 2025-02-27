@@ -59,39 +59,50 @@ sidebar = dbc.Col(
     }
 ) 
 
-card_style = {'height': '100px'}
+card_style = {'height': '125px'}
 
 # Summary status (Celine)
-summary = dbc.Row(
-    [
-        html.H5('Summary Stats'),
-        dbc.Row([
-            dbc.Col(dbc.Card([
-                dbc.CardBody([
-                    html.H5('Avg % GDP'),
-                ])
-            ], style=card_style), width=3),  # Takes 4/12 columns
+summary = dcc.Loading(
+    children=dbc.Row(
+        [
+            html.H5('Summary Stats'),
+            dbc.Row([
+                dbc.Col(dbc.Card([
+                    dbc.CardBody([
+                        html.H6("Avg % GDP"),
+                        html.H2(id="gdp-value", style={"fontWeight": "bold"}),  
+                        html.P(id="gdp-growth", style={"color": "green", "fontSize": "14px"})  
+                    ])
+                ], style=card_style), width=3),
 
-            dbc.Col(dbc.Card([
-                dbc.CardBody([
-                    html.H5('Avg % of Health Spending'),
-                ])
-            ], style=card_style), width=3),
+                dbc.Col(dbc.Card([
+                    dbc.CardBody([
+                        html.H6("Avg % of Health Spending"),
+                        html.H2(id="health-value", style={"fontWeight": "bold"}),
+                        html.P(id="health-growth", style={"color": "green", "fontSize": "14px"})
+                    ])
+                ], style=card_style), width=3),
 
-            dbc.Col(dbc.Card([
-                dbc.CardBody([
-                    html.H5('Avg Spend per Capita (in USD)'),
-                ])
-            ], style=card_style), width=3),
+                dbc.Col(dbc.Card([
+                    dbc.CardBody([
+                        html.H6("Avg Spend per Capita (USD)"),
+                        html.H2(id="capita-value", style={"fontWeight": "bold"}),
+                        html.P(id="capita-growth", style={"color": "green", "fontSize": "14px"})
+                    ])
+                ], style=card_style), width=3),
 
-            dbc.Col(dbc.Card([
-                dbc.CardBody([
-                    html.H5('Total Spend (in USD m)'),
-                ])
-            ], style=card_style), width=3),
-        ])
-    ],
-    style = {'paddingBottom': '1rem'}
+                dbc.Col(dbc.Card([
+                    dbc.CardBody([
+                        html.H6("Total Spend (USD m)"),
+                        html.H2(id="total-value", style={"fontWeight": "bold"}),
+                        html.P(id="total-growth", style={"color": "green", "fontSize": "14px"})
+                    ])
+                ], style=card_style), width=3),
+            ])
+        ],
+        style={'paddingBottom': '1rem'}
+    ),
+    type="cube", fullscreen=False, color="white"
 )
 
 # Metric Selector
@@ -162,6 +173,46 @@ def update_end_year_select_options(start, end):
     return options, default_end_year
 
 @callback(
+    Output("gdp-value", "children"),
+    Output("health-value", "children"),
+    Output("capita-value", "children"),
+    Output("total-value", "children"),
+    Output("gdp-growth", "children"),
+    Output("health-growth", "children"),
+    Output("capita-growth", "children"),
+    Output("total-growth", "children"),
+
+    Input("country_select", "value"),
+    Input("start_year_select", "value"),
+    Input("end_year_select", "value"),
+    Input("spend_metric", "value"),
+)
+def update_summary(countries, year_from, year_to, spend_metric):
+    filtered_data = data.query("LOCATION in @countries and @year_from <= TIME <= @year_to")
+
+    if filtered_data.empty:
+        return ["N/A"] * 8 + [{}] * 4  
+
+    def calc_growth(metric):
+        df = filtered_data.groupby("TIME")[metric].mean()
+        return f"+{((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100:.1f}% Growth" if len(df) > 1 and df.iloc[0] != 0 else "0% Growth"
+
+    # Compute summary stats
+    gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
+    health_value = f"{filtered_data['PC_HEALTHXP'].mean():.2f}%"
+    capita_value = f"${filtered_data['USD_CAP'].mean():,.2f}"
+    total_value = f"${filtered_data['TOTAL_SPEND'].mean():,.2f}M"
+
+    # growth_values = [
+    #     calc_growth("PC_GDP"),
+    #     calc_growth("PC_HEALTHXP"),
+    #     calc_growth("USD_CAP"),
+    #     calc_growth("TOTAL_SPEND")
+    # ]
+    
+    return gdp_value, health_value, capita_value, total_value, calc_growth("PC_GDP"), calc_growth("PC_HEALTHXP"), calc_growth("USD_CAP"), calc_growth("TOTAL_SPEND")
+
+@callback(
     Output('map_chart', 'spec'),
     Output('timeseries_chart', 'spec'),
     Output('bar_chart', 'spec'),
@@ -201,7 +252,16 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
         y=spend_metric,
         color='LOCATION'
     )
-
+    
+    bar_chart = alt.Chart(avg_data).mark_bar(color="steelblue").encode(
+        x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
+        y=alt.Y('LOCATION:N', title="Country", sort='-x'),  
+        tooltip=['LOCATION', f'mean({spend_metric})']
+    ).properties(
+        title=f"Average {spend_metric_label} by Country",
+        height = 250
+    )
+    
     # Pie Chart (Catherine)
     pie_chart = alt.Chart(avg_data).mark_arc().encode(
         theta=alt.Theta(field=spend_metric, type='quantitative', stack=True),
@@ -214,5 +274,5 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     return map_chart.to_dict(), timeseries_chart.to_dict(), bar_chart.to_dict(), pie_chart.to_dict()
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
