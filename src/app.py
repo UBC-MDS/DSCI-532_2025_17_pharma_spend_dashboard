@@ -6,9 +6,9 @@ import geopandas as gpd
 import altair as alt
 import sys
 import os
-# Get absolute path of src directory
-src_path = os.path.abspath(os.path.dirname(__file__))
-# Add it to sys.path
+# Get absolute path of the src directory
+src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
+# Add the src directory to sys.path
 sys.path.append(src_path)
 from preprocessing import preprocess
 
