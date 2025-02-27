@@ -59,7 +59,7 @@ sidebar = dbc.Col(
     }
 ) 
 
-card_style = {'height': '100px'}
+card_style = {'height': '125px'}
 
 # Summary status (Celine)
 summary = dcc.Loading(
@@ -173,24 +173,20 @@ def update_end_year_select_options(start, end):
     return options, default_end_year
 
 @callback(
-    [
-        Output("gdp-value", "children"),
-        Output("health-value", "children"),
-        Output("capita-value", "children"),
-        Output("total-value", "children"),
-        Output("gdp-growth", "children"),
-        Output("health-growth", "children"),
-        Output("capita-growth", "children"),
-        Output("total-growth", "children")
-    ],
-    [
-        Input("country_select", "value"),
-        Input("year_from", "value"),
-        Input("year_to", "value"),
-        Input("spend_metric", "value"),
-    ]
-)
+    Output("gdp-value", "children"),
+    Output("health-value", "children"),
+    Output("capita-value", "children"),
+    Output("total-value", "children"),
+    Output("gdp-growth", "children"),
+    Output("health-growth", "children"),
+    Output("capita-growth", "children"),
+    Output("total-growth", "children"),
 
+    Input("country_select", "value"),
+    Input("start_year_select", "value"),
+    Input("end_year_select", "value"),
+    Input("spend_metric", "value"),
+)
 def update_summary(countries, year_from, year_to, spend_metric):
     filtered_data = data.query("LOCATION in @countries and @year_from <= TIME <= @year_to")
 
@@ -207,12 +203,14 @@ def update_summary(countries, year_from, year_to, spend_metric):
     capita_value = f"${filtered_data['USD_CAP'].mean():,.2f}"
     total_value = f"${filtered_data['TOTAL_SPEND'].mean():,.2f}M"
 
-    growth_values = [
-        calc_growth("PC_GDP"),
-        calc_growth("PC_HEALTHXP"),
-        calc_growth("USD_CAP"),
-        calc_growth("TOTAL_SPEND")
-    ]
+    # growth_values = [
+    #     calc_growth("PC_GDP"),
+    #     calc_growth("PC_HEALTHXP"),
+    #     calc_growth("USD_CAP"),
+    #     calc_growth("TOTAL_SPEND")
+    # ]
+    
+    return gdp_value, health_value, capita_value, total_value, calc_growth("PC_GDP"), calc_growth("PC_HEALTHXP"), calc_growth("USD_CAP"), calc_growth("TOTAL_SPEND")
 
 @callback(
     Output('map_chart', 'spec'),
@@ -260,7 +258,8 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
         y=alt.Y('LOCATION:N', title="", sort='-x'),  
         tooltip=['LOCATION', f'mean({spend_metric})']
     ).properties(
-        title="Avg Total Spend by Country"
+        title="Avg Total Spend by Country",
+        height = 250
     )
     
     # Pie Chart (Catherine)
@@ -275,5 +274,5 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     return map_chart.to_dict(), timeseries_chart.to_dict(), bar_chart.to_dict(), pie_chart.to_dict()
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
