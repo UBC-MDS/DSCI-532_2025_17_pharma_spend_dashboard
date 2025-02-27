@@ -201,6 +201,15 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
         y=spend_metric,
         color='LOCATION'
     )
+    
+    bar_chart = alt.Chart(filtered_data).mark_bar(color="steelblue").encode(
+        x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
+        y=alt.Y('LOCATION:N', title="", sort='-x'), 
+        tooltip=['LOCATION', f'mean({spend_metric})']
+    ).properties(
+        title="Avg Total Spend by Country"
+    )
+
 
     # Pie Chart (Catherine)
     pie_chart = alt.Chart(avg_data).mark_arc().encode(
