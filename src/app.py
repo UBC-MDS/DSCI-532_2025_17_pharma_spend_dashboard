@@ -91,22 +91,28 @@ summary = dbc.Row(
             ], style=card_style), width=3),
         ])
     ],
-    style={
-        'padding': 15,
-    }
+    style = {'padding-bottom': '1rem'}
 )
 
 # Metric Selector
-metric_selection = dcc.RadioItems(
-    id="spend_metric",
-    options=[
-        {"label": "Avg % GDP", "value": "PC_GDP"},
-        {"label": "% of Healthcare", "value": "PC_HEALTHXP"},
-        {"label": "USD Per Capita", "value": "USD_CAP"},
-        {"label": "Total Spend", "value": "TOTAL_SPEND"},
+metric_selection = dbc.Row(
+    [
+        dbc.Col(html.H5('Spend Metrics'), width=2),
+        dbc.Col(
+            dcc.RadioItems(
+                id="spend_metric",
+                options=[
+                    {"label": "Avg % GDP", "value": "PC_GDP"},
+                    {"label": "% of Healthcare", "value": "PC_HEALTHXP"},
+                    {"label": "USD Per Capita", "value": "USD_CAP"},
+                    {"label": "Total Spend", "value": "TOTAL_SPEND"},
+                ],
+                value="TOTAL_SPEND",  # Default selection
+                labelStyle={'display': 'inline-block', 'margin-right': '15px'}
+            ),
+        )
     ],
-    value="TOTAL_SPEND",  # Default selection
-    labelStyle={'display': 'inline-block', 'margin-right': '15px'}
+    style = {'padding-bottom': '1rem'}
 )
 
 # Charts
@@ -119,10 +125,10 @@ pie_chart = dvc.Vega(id="pie_chart", spec={})
 app.layout = dbc.Container(
     [
         dbc.Row([
-            dbc.Col(sidebar, width=3),
+            sidebar,
             dbc.Col([
                 summary,
-                dbc.Row(metric_selection),
+                metric_selection,
                 dbc.Row([
                     dbc.Col(map_chart, width=6),
                     dbc.Col(timeseries_chart, width=6)
@@ -131,11 +137,11 @@ app.layout = dbc.Container(
                     dbc.Col(bar_chart, width=6),
                     dbc.Col(pie_chart, width=6)
                 ])
-            ], width=9)
+            ], style = {'padding-left': '1.25rem'})
         ])
     ],
     fluid=True,
-    style={'padding': 0, 'margin': '10px'}
+    style={'padding': 0, 'margin': '0.625rem'}
 )
 
 @app.callback(
