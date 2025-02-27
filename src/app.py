@@ -19,7 +19,6 @@ server = app.server
 # Data preprocessing
 data, world_countries = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
-print(data.head())
 # get the locations and years from the original dataset
 locations = data['LOCATION'].unique()
 times = sorted(data['TIME'].unique()) # integer type
@@ -202,7 +201,6 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     # More efficient for large data sets
     alt.data_transformers.enable('vegafusion')
     print("Finish preparing map data!")
-    print(filtered_data_merged)  
     map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
