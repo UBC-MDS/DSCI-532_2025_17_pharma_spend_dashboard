@@ -54,7 +54,7 @@ sidebar = dbc.Col(
         'padding': 15,  # Padding top,left,right,botoom
         'paddingLeft': 30,
         'width': '20vw',
-        'height': '100vh',  # vh = 'viewport height' = 100% of the window height
+        'minHeight': '100vh',  # vh = 'viewport height' = 100% of the window height
         'flexDirection': 'column',  # Allow for children to be aligned to bottom
     }
 ) 
