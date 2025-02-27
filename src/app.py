@@ -6,11 +6,11 @@ import geopandas as gpd
 import altair as alt
 import sys
 import os
-# Get absolute path of the src directory
-src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src'))
-# Add the src directory to sys.path
-sys.path.append(src_path)
-from preprocessing import preprocess
+# Get the absolute path of the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Add the parent directory to sys.path
+sys.path.append(parent_dir)
+from src.preprocessing import preprocess
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -18,6 +18,8 @@ server = app.server
 
 # Data preprocessing
 data, locations = preprocess("data/raw/data.csv")
+print("Data Loading Success!")
+print(data.head())
 times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
 max_year = data['TIME'].max()
