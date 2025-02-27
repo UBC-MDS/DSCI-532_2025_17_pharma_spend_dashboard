@@ -17,14 +17,14 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Data preprocessing
-data, origin_data = preprocess("data/raw/data.csv")
+data, world_countries = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
 print(data.head())
 # get the locations and years from the original dataset
-locations = origin_data['LOCATION'].unique()
-times = sorted(origin_data['TIME'].unique()) # integer type
-min_year = origin_data['TIME'].min()
-max_year = origin_data['TIME'].max()
+locations = data['LOCATION'].unique()
+times = sorted(data['TIME'].unique()) # integer type
+min_year = data['TIME'].min()
+max_year = data['TIME'].max()
 
 # Side bar for global filter
 sidebar = dbc.Col(
@@ -194,16 +194,16 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     # Map Plot (Daria)
     # Merge average data with geometry
     filtered_data_merged = pd.merge(
-        data[['LOCATION', 'geometry']], 
+        world_countries[['LOCATION', 'geometry', 'name']], 
         avg_data, 
         on='LOCATION', 
-        how='inner'
+        how='left'
     )
     # More efficient for large data sets
     alt.data_transformers.enable('vegafusion')
-    print("Finish preparing map data!")   
-    print(filtered_data_merged.head())  
-    map = alt.Chart(data, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
+    print("Finish preparing map data!")
+    print(filtered_data_merged)  
+    map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,

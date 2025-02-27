@@ -31,9 +31,6 @@ def preprocess(file_path):
     world_countries = world_countries.replace(replacement)
     world_countries = world_countries.rename(columns={'sov_a3': 'LOCATION'})
     
-    # merge the geolocation data to the original dataset
-    processed_data = pd.merge(world_countries, data, how='left', on='LOCATION')
-
     print("Data Preprocessing Success!")
 
-    return processed_data, data
+    return data, world_countries
