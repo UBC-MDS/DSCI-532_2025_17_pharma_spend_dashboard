@@ -17,13 +17,25 @@ def preprocess(file_path):
     )
     
     replacement = {
-    'US1': 'USA', 'NZ1': 'NZL', 'FR1': 'FRA', 'DN1': 'DNK', 
-    'IS1': 'ISR', 'GB1': 'GBR', 'NL1': 'NLD', 'FI1': 'FIN', 'AU1': 'AUS'
+        'US1': 'USA', 
+        'NZ1': 'NZL', 
+        'FR1': 'FRA', 
+        'DN1': 'DNK', 
+        'IS1': 'ISR', 
+        'GB1': 'GBR', 
+        'NL1': 'NLD', 
+        'FI1': 'FIN', 
+        'AU1': 'AUS'
     }
     
     world_countries = world_countries.replace(replacement)
     world_countries = world_countries.rename(columns={'sov_a3': 'LOCATION'})
     
+    # merge the geolocation data to the original dataset
     processed_data = pd.merge(world_countries, data, how='left', on='LOCATION')
-    print("Success!")
-    return processed_data
+    # get the locations from the original dataset
+    locations = data['LOCATION'].unique()
+
+    print("Data Preprocessing Success!")
+
+    return processed_data, locations

@@ -11,11 +11,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Data preprocessing
-# data = pd.read_csv('data/processed/data.csv')
-# data = data.drop('FLAG_CODES', axis=1)
-data = preprocess("data/raw/data.csv")
-
-locations = data['LOCATION'].unique()
+data, locations = preprocess("data/raw/data.csv")
 times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
 max_year = data['TIME'].max()
@@ -176,6 +172,7 @@ def update_end_year_select_options(start, end):
     Input('spend_metric', 'options')
 )
 def create_chart(country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
+    # Filter data by countries and years
     filtered_data = data[
         data['LOCATION'].isin(country_select) &  # Filter by selected countries
         data['TIME'].between(start_year_select, end_year_select)  # Filter TIME between years
@@ -185,20 +182,14 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
 
     # Map Plot (Daria)
+    # Merge average data with geometry
     filtered_data_merged = pd.merge(
         data[['LOCATION', 'geometry']], 
         avg_data, 
         on='LOCATION', 
         how='inner'
-    )
-    
-    map = alt.Chart(data, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()
-     
-    # color_scale = alt.Scale(
-    #     domain=[0, avg_data[spend_metric].max()],
-    #     range=['#D3D3D3', 'blue'] # Gray to blue
-    # )
-    
+    )    
+    map = alt.Chart(data, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,
