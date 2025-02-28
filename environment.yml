@@ -11,6 +11,7 @@ dependencies:
     - dash
     - dash-bootstrap-components
     - plotly
+    - geopandas=1.0.*
     - tabulate  # df.to_markdown()
     - lxml  # pd.read_html()
     - pip=24.0
