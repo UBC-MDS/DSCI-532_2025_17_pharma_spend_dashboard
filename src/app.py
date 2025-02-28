@@ -121,10 +121,10 @@ metric_selection = dbc.Row(
             dcc.RadioItems(
                 id='spend_metric',
                 options=[
-                    {'label': 'Avg % GDP', 'value': 'PC_GDP'},
+                    {'label': '% of GDP', 'value': 'PC_GDP'},
                     {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
-                    {'label': 'USD Per Capita', 'value': 'USD_CAP'},
-                    {'label': 'Total Spend', 'value': 'TOTAL_SPEND'},
+                    {'label': 'USD Per Capita (USD)', 'value': 'USD_CAP'},
+                    {'label': 'Total Spend (USD m)', 'value': 'TOTAL_SPEND'},
                 ],
                 value='TOTAL_SPEND',  # Default selection
                 labelStyle={'display': 'inline-block', 'marginRight': '0.938rem'}
@@ -281,10 +281,22 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     map_chart = map + chart + bubbles
 
     # Time Series Chart (Jason)
-    timeseries_chart = alt.Chart(filtered_data).mark_line().encode(
-        x='TIME',
-        y=spend_metric,
-        color='LOCATION'
+    line = alt.Chart(filtered_data).mark_line().encode(
+        x=alt.X('TIME:Q', title="Year").axis(format="d"),
+        y=alt.Y(spend_metric, title=f"{spend_metric_label}"),
+        color=alt.Color('LOCATION', legend=alt.Legend(title="Country")),
+        tooltip=['LOCATION', spend_metric]
+    )
+
+    points = alt.Chart(filtered_data).mark_circle().encode(
+        x=alt.X('TIME:Q'),
+        y=alt.Y(spend_metric),
+        color='LOCATION',  # Keeps color consistent with the line chart
+        tooltip=['LOCATION', spend_metric]
+    )
+
+    timeseries_chart = (line + points).properties(
+        title= f'{spend_metric_label} by Country ({start_year_select} to {end_year_select})'
     )
 
     # Bar Chart (Celine)
@@ -306,7 +318,7 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     # Pie Chart (Catherine)
     pie_chart = alt.Chart(avg_data).mark_arc().encode(
         theta=alt.Theta(field=spend_metric, type='quantitative', stack=True),
-        color=alt.Color(field='LOCATION', type='nominal'),
+        color=alt.Color(field='LOCATION', type='nominal', legend=alt.Legend(title="Country")),
         tooltip=['LOCATION', spend_metric]
     ).properties(
         title=f'Average {spend_metric_label} by Country'
