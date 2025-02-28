@@ -6,6 +6,7 @@ import geopandas as gpd
 import altair as alt
 import sys
 import os
+from datetime import datetime
 # Get the absolute path of the parent directory
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the parent directory to sys.path
@@ -29,7 +30,6 @@ max_year = data['TIME'].max()
 sidebar = dbc.Col(
     [
         html.H3('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
-        html.P('By: Jason Lee, Daria Khon, Celine Habashy, Catherine Meng', style={'fontSize': '10px'}),
         html.Br(),
 
         html.H5('Country', style={'fontWeight': 'bold'}),
@@ -60,16 +60,13 @@ sidebar = dbc.Col(
         html.Br(),
         html.Br(),
         html.Br(),
-        html.Br(),
-        html.Br(),
-        html.Br(),
 
         html.H5('About:', style={'fontWeight': 'bold'}),
-        html.P('Pharmaceutical spending is the expenditure on prescription medicines and self-medication, often referred to as over-the-counter products. Expenditure on pharmaceuticals includes wholesale and retail margins and value-added tax. In most countries, expenditure is calculated with net spending, that is, adjusted for possible rebates payable by manufacturers, wholesalers or pharmacies. In some countries, other medical non-durable goods are also included. Pharmaceuticals consumed in hospitals and other health care settings are excluded.', 
-        style={
-            'fontSize': '12px',
-            'lineHeight': '1.5'
-        })
+        html.P("This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", style={'fontSize': '12px'}),
+        html.P('By: Jason Lee, Daria Khon, Celine Habashy, Catherine Meng', style={'fontSize': '12px'}),
+        html.P("Data: Organisation for Economic Cooperation and Development", style={'fontSize': '12px'}),
+        html.P(["Source code: ", html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", target="_blank", style={'color': 'blue', 'fontSize': '12px'})], style={'fontSize': '12px'}),
+        html.P("Last updated: {}".format(datetime.now().strftime('%B %d, %Y')), style={'fontSize': '12px'})
     ],
     md=3,
     style={
@@ -80,7 +77,7 @@ sidebar = dbc.Col(
         'minHeight': '100vh',  # vh = 'viewport height' = 100% of the window height
         'flexDirection': 'column',  # Allow for children to be aligned to bottom
     }
-) 
+)
 
 card_style = {'height': '125px'}
 
