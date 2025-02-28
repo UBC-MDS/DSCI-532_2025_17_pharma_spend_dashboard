@@ -223,7 +223,6 @@ def update_summary(countries, year_from, year_to, spend_metric):
         if growth > 0:
             return f"+{growth:.1f}% Growth", {"color": "green"}
         else:
-            color = "red"
             return f"{growth:.1f}% Growth", {"color": "red"}
 
     # Compute summary stats
