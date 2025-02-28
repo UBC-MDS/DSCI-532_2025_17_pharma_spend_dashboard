@@ -28,10 +28,11 @@ max_year = data['TIME'].max()
 # Side bar for global filter
 sidebar = dbc.Col(
     [
-        html.H3('Global Pharmaceutical Spend Dashboard'),
+        html.H3('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
+        html.P('By: Jason Lee, Daria Khon, Celine Habashy, Catherine Meng', style={'fontSize': '10px'}),
         html.Br(),
 
-        html.H5('Country'),
+        html.H5('Country', style={'fontWeight': 'bold'}),
         dcc.Dropdown(
             id='country_select', 
             options=[{'label': country, 'value': country} for country in locations], 
@@ -39,8 +40,9 @@ sidebar = dbc.Col(
             multi=True
         ),
         html.Br(),
+        html.Br(),
 
-        html.H5('Year'),
+        html.H5('Year', style={'fontWeight': 'bold'}),
         html.P('From', style={'marginBottom': '0.375rem'}),
         dcc.Dropdown(
             id='start_year_select',
@@ -54,7 +56,20 @@ sidebar = dbc.Col(
             options=[{'label': str(year), 'value': year} for year in times],
             value=max_year,  # Default end by the maximum year
             clearable=False
-        )
+        ),
+        html.Br(),
+        html.Br(),
+        html.Br(),
+        html.Br(),
+        html.Br(),
+        html.Br(),
+
+        html.H5('About:', style={'fontWeight': 'bold'}),
+        html.P('Pharmaceutical spending is the expenditure on prescription medicines and self-medication, often referred to as over-the-counter products. Expenditure on pharmaceuticals includes wholesale and retail margins and value-added tax. In most countries, expenditure is calculated with net spending, that is, adjusted for possible rebates payable by manufacturers, wholesalers or pharmacies. In some countries, other medical non-durable goods are also included. Pharmaceuticals consumed in hospitals and other health care settings are excluded.', 
+        style={
+            'fontSize': '12px',
+            'lineHeight': '1.5'
+        })
     ],
     md=3,
     style={
@@ -73,7 +88,6 @@ card_style = {'height': '125px'}
 summary = dcc.Loading(
     children=dbc.Row(
         [
-            html.H5('Summary Stats'),
             dbc.Row([
                 dbc.Col(dbc.Card([
                     dbc.CardBody([
