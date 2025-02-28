@@ -256,10 +256,29 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,
-            scale = alt.Scale(scheme='blues'),
+            scale = alt.Scale(scheme='teals'),
             legend=alt.Legend(title=f'Average {spend_metric_label}')
-        ))
-    map_chart = map + chart
+        ),
+        tooltip = 'LOCATION'
+    ).project(
+        'naturalEarth1'
+    )
+    
+    bubbles = alt.Chart(filtered_data_merged).transform_calculate(
+        centroid=alt.expr.geoCentroid(None, alt.datum)
+    ).mark_circle(
+        stroke='brown',
+        fill = 'brown',
+        strokeWidth = 1,
+        opacity = 0.5
+    ).encode(
+        longitude='centroid[0]:Q',
+        latitude='centroid[1]:Q',
+        size=alt.Size(spend_metric, 
+                  legend=alt.Legend(title=None)),
+        tooltip = alt.Tooltip(spend_metric, format=".2f")
+    )
+    map_chart = map + chart + bubbles
 
     # Time Series Chart (Jason)
     timeseries_chart = alt.Chart(filtered_data).mark_line().encode(
