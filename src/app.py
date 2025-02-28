@@ -2,16 +2,24 @@ from dash import Dash, html, dcc, callback, Output, Input
 import dash_bootstrap_components as dbc
 import dash_vega_components as dvc
 import pandas as pd
+import geopandas as gpd
 import altair as alt
+import sys
+import os
+# Get the absolute path of the parent directory
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Add the parent directory to sys.path
+sys.path.append(parent_dir)
+from src.preprocessing import preprocess
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Data preprocessing
-data = pd.read_csv('data/raw/data.csv')
-data = data.drop('FLAG_CODES', axis=1)
-
+data, world_countries = preprocess("data/raw/data.csv")
+print("Data Loading Success!")
+# get the locations and years from the original dataset
 locations = data['LOCATION'].unique()
 times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
@@ -37,14 +45,14 @@ sidebar = dbc.Col(
         dcc.Dropdown(
             id='start_year_select',
             options=[{'label': str(year), 'value': year} for year in times],
-            value=data['TIME'].min(),  # Default start by the minimal year
+            value=min_year,  # Default start by the minimal year
             clearable=False
         ),
         html.P('To', style={'marginTop': '0.375rem'}),
         dcc.Dropdown(
             id='end_year_select',
             options=[{'label': str(year), 'value': year} for year in times],
-            value=data['TIME'].max(),  # Default end by the maximum year
+            value=max_year,  # Default end by the maximum year
             clearable=False
         )
     ],
@@ -112,10 +120,10 @@ metric_selection = dbc.Row(
             dcc.RadioItems(
                 id='spend_metric',
                 options=[
-                    {'label': 'Avg % GDP', 'value': 'PC_GDP'},
+                    {'label': '% of GDP', 'value': 'PC_GDP'},
                     {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
-                    {'label': 'USD Per Capita', 'value': 'USD_CAP'},
-                    {'label': 'Total Spend', 'value': 'TOTAL_SPEND'},
+                    {'label': 'USD Per Capita (USD)', 'value': 'USD_CAP'},
+                    {'label': 'Total Spend (USD m)', 'value': 'TOTAL_SPEND'},
                 ],
                 value='TOTAL_SPEND',  # Default selection
                 labelStyle={'display': 'inline-block', 'marginRight': '0.938rem'}
@@ -196,6 +204,7 @@ def update_summary(countries, year_from, year_to, spend_metric):
         df = filtered_data.groupby("TIME")[metric].mean()
         return f"+{((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100:.1f}% Growth"
 
+
     # Compute summary stats
     gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
     health_value = f"{filtered_data['PC_HEALTHXP'].mean():.2f}%"
@@ -216,6 +225,7 @@ def update_summary(countries, year_from, year_to, spend_metric):
     Input('spend_metric', 'options')
 )
 def create_chart(country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
+    # Filter data by countries and years
     filtered_data = data[
         data['LOCATION'].isin(country_select) &  # Filter by selected countries
         data['TIME'].between(start_year_select, end_year_select)  # Filter TIME between years
@@ -225,17 +235,61 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
 
     # Map Plot (Daria)
-    map_chart = alt.Chart(filtered_data).mark_point().encode(
-        x='TIME',
-        y=spend_metric,
-        color='LOCATION'
+    # Merge average data with geometry
+    filtered_data_merged = pd.merge(
+        world_countries[['LOCATION', 'geometry', 'name']], 
+        avg_data, 
+        on='LOCATION', 
+        how='left'
     )
+    # More efficient for large data sets
+    alt.data_transformers.enable('vegafusion')
+    print("Finish preparing map data!")
+    map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
+    chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
+        color = alt.Color(
+            spend_metric,
+            scale = alt.Scale(scheme='teals'),
+            legend=alt.Legend(title=f'Average {spend_metric_label}')
+        ),
+        tooltip = 'LOCATION'
+    ).project(
+        'naturalEarth1'
+    )
+    
+    bubbles = alt.Chart(filtered_data_merged).transform_calculate(
+        centroid=alt.expr.geoCentroid(None, alt.datum)
+    ).mark_circle(
+        stroke='brown',
+        fill = 'brown',
+        strokeWidth = 1,
+        opacity = 0.5
+    ).encode(
+        longitude='centroid[0]:Q',
+        latitude='centroid[1]:Q',
+        size=alt.Size(spend_metric, 
+                  legend=alt.Legend(title=None)),
+        tooltip = alt.Tooltip(spend_metric, format=".2f")
+    )
+    map_chart = map + chart + bubbles
 
     # Time Series Chart (Jason)
-    timeseries_chart = alt.Chart(filtered_data).mark_line().encode(
-        x='TIME',
-        y=spend_metric,
-        color='LOCATION'
+    line = alt.Chart(filtered_data).mark_line().encode(
+        x=alt.X('TIME:Q', title="Year").axis(format="d"),
+        y=alt.Y(spend_metric, title=f"{spend_metric_label}"),
+        color=alt.Color('LOCATION', legend=alt.Legend(title="Country")),
+        tooltip=['LOCATION', spend_metric]
+    )
+
+    points = alt.Chart(filtered_data).mark_circle().encode(
+        x=alt.X('TIME:Q'),
+        y=alt.Y(spend_metric),
+        color='LOCATION',  # Keeps color consistent with the line chart
+        tooltip=['LOCATION', spend_metric]
+    )
+
+    timeseries_chart = (line + points).properties(
+        title= f'{spend_metric_label} by Country ({start_year_select} to {end_year_select})'
     )
 
     # Bar Chart (Celine)
@@ -257,13 +311,13 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     # Pie Chart (Catherine)
     pie_chart = alt.Chart(avg_data).mark_arc().encode(
         theta=alt.Theta(field=spend_metric, type='quantitative', stack=True),
-        color=alt.Color(field='LOCATION', type='nominal'),
+        color=alt.Color(field='LOCATION', type='nominal', legend=alt.Legend(title="Country")),
         tooltip=['LOCATION', spend_metric]
     ).properties(
         title=f'Average {spend_metric_label} by Country'
     )
 
-    return map_chart.to_dict(), timeseries_chart.to_dict(), bar_chart.to_dict(), pie_chart.to_dict()
+    return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"), pie_chart.to_dict(format="vega")
 
 if __name__ == '__main__':
     app.run(debug=True)
