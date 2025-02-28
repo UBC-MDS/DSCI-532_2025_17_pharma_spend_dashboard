@@ -112,7 +112,7 @@ summary = dcc.Loading(
 
                 dbc.Col(dbc.Card([
                     dbc.CardBody([
-                        html.H6("Total Spend (USD)"),
+                        html.H6("Avg Total Spend (USD B)"),
                         html.H2(id="total-value", style={"fontWeight": "bold"}),
                         html.P(id="total-growth", style={"color": "green", "fontSize": "14px"})
                     ])
@@ -134,8 +134,8 @@ metric_selection = dbc.Row(
                 options=[
                     {'label': '% of GDP', 'value': 'PC_GDP'},
                     {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
-                    {'label': 'USD Per Capita (USD)', 'value': 'USD_CAP'},
-                    {'label': 'Total Spend (USD m)', 'value': 'TOTAL_SPEND'},
+                    {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
+                    {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
                 ],
                 value='TOTAL_SPEND',  # Default selection
                 labelStyle={'display': 'inline-block', 'marginRight': '0.938rem'}
@@ -197,9 +197,13 @@ def update_end_year_select_options(start, end):
     Output("capita-value", "children"),
     Output("total-value", "children"),
     Output("gdp-growth", "children"),
+    Output("gdp-growth", "style"),
     Output("health-growth", "children"),
+    Output("health-growth", "style"),
     Output("capita-growth", "children"),
+    Output("capita-growth", "style"),
     Output("total-growth", "children"),
+    Output("total-growth", "style"),
 
     Input("country_select", "value"),
     Input("start_year_select", "value"),
@@ -214,8 +218,12 @@ def update_summary(countries, year_from, year_to, spend_metric):
 
     def calc_growth(metric):
         df = filtered_data.groupby("TIME")[metric].mean()
-        return f"+{((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100:.1f}% Growth"
-
+        growth = ((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100
+        
+        if growth > 0:
+            return f"+{growth:.1f}% Growth", {"color": "green"}
+        else:
+            return f"{growth:.1f}% Growth", {"color": "red"}
 
     # Compute summary stats
     gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
@@ -223,7 +231,16 @@ def update_summary(countries, year_from, year_to, spend_metric):
     capita_value = f"${filtered_data['USD_CAP'].mean():,.2f}"
     total_value = f"${int(filtered_data['TOTAL_SPEND'].mean()):,}"
     
-    return gdp_value, health_value, capita_value, total_value, calc_growth("PC_GDP"), calc_growth("PC_HEALTHXP"), calc_growth("USD_CAP"), calc_growth("TOTAL_SPEND")
+    gdp_growth, gdp_growth_style = calc_growth("PC_GDP")
+    health_growth, health_growth_style = calc_growth("PC_HEALTHXP")
+    capita_growth, capita_growth_style = calc_growth("USD_CAP")
+    total_growth, total_growth_style = calc_growth("TOTAL_SPEND")
+
+    return (gdp_value, health_value, capita_value, total_value,
+            gdp_growth, gdp_growth_style,
+            health_growth, health_growth_style,
+            capita_growth, capita_growth_style,
+            total_growth, total_growth_style)
 
 @callback(
     Output('map_chart', 'spec'),
