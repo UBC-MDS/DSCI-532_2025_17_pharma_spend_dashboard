@@ -65,7 +65,6 @@ card_style = {'height': '125px'}
 summary = dcc.Loading(
     children=dbc.Row(
         [
-            html.H5('Summary Stats'),
             dbc.Row([
                 dbc.Col(dbc.Card([
                     dbc.CardBody([
@@ -93,7 +92,7 @@ summary = dcc.Loading(
 
                 dbc.Col(dbc.Card([
                     dbc.CardBody([
-                        html.H6("Total Spend (USD m)"),
+                        html.H6("Total Spend (USD)"),
                         html.H2(id="total-value", style={"fontWeight": "bold"}),
                         html.P(id="total-growth", style={"color": "green", "fontSize": "14px"})
                     ])
@@ -195,20 +194,13 @@ def update_summary(countries, year_from, year_to, spend_metric):
 
     def calc_growth(metric):
         df = filtered_data.groupby("TIME")[metric].mean()
-        return f"+{((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100:.1f}% Growth" if len(df) > 1 and df.iloc[0] != 0 else "0% Growth"
+        return f"+{((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100:.1f}% Growth"
 
     # Compute summary stats
     gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
     health_value = f"{filtered_data['PC_HEALTHXP'].mean():.2f}%"
     capita_value = f"${filtered_data['USD_CAP'].mean():,.2f}"
-    total_value = f"${filtered_data['TOTAL_SPEND'].mean():,.2f}M"
-
-    # growth_values = [
-    #     calc_growth("PC_GDP"),
-    #     calc_growth("PC_HEALTHXP"),
-    #     calc_growth("USD_CAP"),
-    #     calc_growth("TOTAL_SPEND")
-    # ]
+    total_value = f"${int(filtered_data['TOTAL_SPEND'].mean()):,}"
     
     return gdp_value, health_value, capita_value, total_value, calc_growth("PC_GDP"), calc_growth("PC_HEALTHXP"), calc_growth("USD_CAP"), calc_growth("TOTAL_SPEND")
 
