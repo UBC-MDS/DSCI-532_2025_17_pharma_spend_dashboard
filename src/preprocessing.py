@@ -2,6 +2,7 @@ import pandas as pd
 import geopandas as gpd
 
 def preprocess(file_path):
+    """ Loads and preprocesses the data set together with geopspatial world data"""
     data = pd.read_csv(file_path)
     data = data.drop('FLAG_CODES', axis=1)
     
