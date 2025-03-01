@@ -22,7 +22,7 @@ The user can customize the view of the dashboard by interacting with:
 - All charts have tooltips to provide additional information about the data, which will be displayed upon hovering over the chart element of interest.
 
 ### Demo
-GIF GOES HERE
+![Demo]('img/demo.gif')
 
 ## Contributors
 Jason Lee, Celine Habashy, Daria Khon, Catherine Meng
