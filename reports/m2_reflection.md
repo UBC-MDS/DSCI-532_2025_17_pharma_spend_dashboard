@@ -2,13 +2,20 @@
 
 ## Current Implementations (as of milestone 2)
 Basic functionality for all elements in our proposal has been implemented. That is: 
-- Global filters for country and year selection that update summary stats cards and graph outputs
+- Global filters for country and year selection that update summary stats cards and graph outputs 
 - Local filters for the spend metric selection (radio buttons) that update graph outputs
 - Choropleth map chart (top left)
 - Time series chart (top right)
 - Bar graph (bottom left)
 - Pie chart (bottom right)
 - About section to provide context to the data
+
+### Total inputs / outputs:
+- 5 inputs (Country select / Start Year / End Year / Spend Metric (values) / Spend Metric (options))
+- 4 chart outputs (Map / Time Series / Bar Graph / Pie Chart)
+- 4 avg metric outputs (gdp-value / health-value / capita-value / total-value) -> Displays average spend metrics in the summary cards
+- 4 growth metric outputs (gdp-growth / health-growth / capita-growth / total-growth) -> Displays growth of spend metric in the summary cards
+- 4 growth metric style output (gdp-growth / health-growth / capita-growth / total-growth) -> Controls color of text based on postive or negative values for clarity
 
 ## Impending Implementations
 - Map chart: adding zoom selection
