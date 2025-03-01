@@ -31,6 +31,7 @@ Basic functionality for all elements in our proposal has been implemented. That 
 - Units: The total spend metric was initially expressed in millions of USD. For better readability, total spend is now expressed in billions of USD.
 
 ## Deviations from DSCI_531 best practices
+- We implemented a pie chart in our dashboard, but this choice contradicts the best practices of DSCI_531. A bar chart, for example, would more effectively represent magnitude. Since we already have 1 existing bar chart, we are considering removing this pie chart in a future release.
 
 ## Other reflections
 
