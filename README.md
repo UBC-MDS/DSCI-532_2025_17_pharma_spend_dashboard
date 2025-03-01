@@ -22,7 +22,7 @@ The user can customize the view of the dashboard by interacting with:
 - All charts have tooltips to provide additional information about the data, which will be displayed upon hovering over the chart element of interest.
 
 ### Demo
-![Demo]('img/demo.gif')
+!['img/demo.gif'](https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard/blob/doc/add_demo_gif/img/demo.gif)
 
 ## Contributors
 Jason Lee, Celine Habashy, Daria Khon, Catherine Meng
