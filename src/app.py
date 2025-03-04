@@ -149,7 +149,6 @@ metric_selection = dbc.Row(
 map_chart = dvc.Vega(id='map_chart', spec={})
 timeseries_chart = dvc.Vega(id='timeseries_chart', spec={})
 bar_chart = dvc.Vega(id='bar_chart', spec={})
-pie_chart = dvc.Vega(id='pie_chart', spec={})
 
 # App layout
 app.layout = dbc.Container(
@@ -159,14 +158,11 @@ app.layout = dbc.Container(
             dbc.Col([
                 summary,
                 metric_selection,
+                dbc.Row(dbc.Col(map_chart)),
                 dbc.Row([
-                    dbc.Col(map_chart, width=6),
-                    dbc.Col(timeseries_chart, width=6)
-                ]),
-                dbc.Row([
-                    dbc.Col(bar_chart, width=6),
-                    dbc.Col(pie_chart, width=6)
-                ])
+                    dbc.Col(timeseries_chart, width=6),
+                    dbc.Col(bar_chart, width=6)
+                ], style = {'paddingTop': '1.25rem'})
             ], style = {'paddingLeft': '1.25rem', 'paddingTop': '0.625rem'})
         ])
     ],
@@ -246,7 +242,6 @@ def update_summary(countries, year_from, year_to, spend_metric):
     Output('map_chart', 'spec'),
     Output('timeseries_chart', 'spec'),
     Output('bar_chart', 'spec'),
-    Output('pie_chart', 'spec'),
     Input('country_select', 'value'),
     Input('start_year_select', 'value'),
     Input('end_year_select', 'value'),
@@ -274,7 +269,7 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     # More efficient for large data sets
     alt.data_transformers.enable('vegafusion')
     print("Finish preparing map data!")
-    map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
+    map = alt.Chart(filtered_data_merged, width=850).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,
@@ -303,7 +298,7 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     map_chart = map + chart + bubbles
 
     # Time Series Chart (Jason)
-    line = alt.Chart(filtered_data).mark_line().encode(
+    line = alt.Chart(filtered_data, width='container').mark_line().encode(
         x=alt.X('TIME:Q', title="Year").axis(format="d"),
         y=alt.Y(spend_metric, title=f"{spend_metric_label}"),
         color=alt.Color('LOCATION', legend=alt.Legend(title="Country")),
@@ -322,31 +317,15 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     )
 
     # Bar Chart (Celine)
-    bar_chart = alt.Chart(filtered_data).mark_point().encode(
-        x='TIME',
-        y=spend_metric,
-        color='LOCATION'
-    )
-    
-    bar_chart = alt.Chart(avg_data).mark_bar(color="steelblue").encode(
+    bar_chart = alt.Chart(avg_data, width='container', height=300).mark_bar(color="steelblue").encode(
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
         y=alt.Y('LOCATION:N', title="Country", sort='-x'),  
         tooltip=['LOCATION', f'mean({spend_metric})']
     ).properties(
-        title=f"Average {spend_metric_label} by Country",
-        height = 250
-    )
-    
-    # Pie Chart (Catherine)
-    pie_chart = alt.Chart(avg_data).mark_arc().encode(
-        theta=alt.Theta(field=spend_metric, type='quantitative', stack=True),
-        color=alt.Color(field='LOCATION', type='nominal', legend=alt.Legend(title="Country")),
-        tooltip=['LOCATION', spend_metric]
-    ).properties(
-        title=f'Average {spend_metric_label} by Country'
+        title=f"Average {spend_metric_label} by Country"
     )
 
-    return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"), pie_chart.to_dict(format="vega")
+    return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")
 
 if __name__ == '__main__':
     app.run()
