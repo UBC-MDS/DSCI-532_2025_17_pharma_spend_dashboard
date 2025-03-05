@@ -12,14 +12,14 @@ def create_map_chart(filtered_data_merged, spend_metric, spend_metric_label):
     """
     Creates a map chart
     """
-    map = alt.Chart(filtered_data_merged, width=850).mark_geoshape(stroke='white', color='lightgrey').encode()    
+    # map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,
             scale = alt.Scale(scheme='teals'),
             legend=alt.Legend(title=f'Average {spend_metric_label}')
         ),
-        tooltip = 'LOCATION'
+        tooltip = 'name'
     ).project(
         'naturalEarth1'
     )
@@ -30,15 +30,15 @@ def create_map_chart(filtered_data_merged, spend_metric, spend_metric_label):
         stroke='brown',
         fill = 'brown',
         strokeWidth = 1,
-        opacity = 0.5
+        opacity = 0.8
     ).encode(
         longitude='centroid[0]:Q',
         latitude='centroid[1]:Q',
         size=alt.Size(spend_metric, 
                   legend=alt.Legend(title=None)),
-        tooltip = alt.Tooltip(spend_metric, format=".2f")
+        tooltip = alt.Tooltip(spend_metric, format=".0f")
     )
-    map_chart = map + chart + bubbles
+    map_chart = chart + bubbles
 
     return map_chart
 

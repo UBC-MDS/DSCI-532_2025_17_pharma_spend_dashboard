@@ -16,9 +16,17 @@ from src.preprocessing import preprocess
 from src.charts import *
 
 # Data preprocessing
-data, world_countries = preprocess("data/raw/data.csv")
+raw_data, world_countries = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
-times = sorted(data['TIME'].unique()) # integer type
+times = sorted(raw_data['TIME'].unique()) # integer type
+
+# merge data
+data = pd.merge(
+    world_countries,
+    raw_data,
+    on='LOCATION',
+    how='inner'
+)
 
 @callback(
     Output('end_year_select', 'options'),
@@ -58,6 +66,15 @@ def update_end_year_select_options(start, end):
     Input("end_year_select", "value"),
     Input("spend_metric", "value"),
 )
+# def calc_growth(metric, filtered_data):
+#         df = filtered_data.groupby("TIME")[metric].mean()
+#         growth = ((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100
+        
+#         if growth > 0:
+#             return f"+{growth:.1f}% Growth", {"color": "green"}
+#         else:
+#             return f"{growth:.1f}% Growth", {"color": "red"}
+        
 def update_summary(countries, year_from, year_to, spend_metric):
     filtered_data = data.query("LOCATION in @countries and @year_from <= TIME <= @year_to")
 
@@ -113,18 +130,19 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
 
     # Merge average data with geometry
-    filtered_data_merged = pd.merge(
-        world_countries[['LOCATION', 'geometry', 'name']], 
-        avg_data, 
-        on='LOCATION', 
-        how='left'
-    )
+    # filtered_data_merged = pd.merge(
+    #     world_countries[['LOCATION', 'geometry', 'name']], 
+    #     avg_data, 
+    #     on='LOCATION', 
+    #     how='left'
+    # )
     # More efficient for large data sets
     alt.data_transformers.enable('vegafusion')
     print("Finish preparing map data!")
 
     # Map Plot (Daria)
-    map_chart = create_map_chart(filtered_data_merged, 
+    map = alt.Chart(world_countries, width=800).mark_geoshape(stroke='white', color='lightgrey').encode()
+    map_chart = map + create_map_chart(filtered_data, 
                                  spend_metric, 
                                  spend_metric_label)
 
