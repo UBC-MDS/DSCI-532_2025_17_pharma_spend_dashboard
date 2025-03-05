@@ -28,6 +28,7 @@ times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
 max_year = data['TIME'].max()
 
+
 # Side bar for global filter
 sidebar = dbc.Col(
     [
@@ -61,6 +62,20 @@ sidebar = dbc.Col(
         ),
         html.Br(),
         html.Br(),
+        
+        html.H5('Spend Metrics', style={'fontWeight': 'bold'}),
+        dcc.RadioItems(
+                id='spend_metric',
+                options=[
+                    {'label': '% of GDP', 'value': 'PC_GDP'},
+                    {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
+                    {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
+                    {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
+                ],
+                value='PC_GDP',  # Default selection
+                labelStyle={'display': 'block', 'marginRight': '0.938rem'}
+        ),
+        
         html.Br(),
 
         html.H5('About:', style={'fontWeight': 'bold'}),
@@ -127,25 +142,25 @@ summary = dcc.Loading(
 )
 
 # Metric Selector
-metric_selection = dbc.Row(
-    [
-        dbc.Col(html.H5('Spend Metrics'), width=2),
-        dbc.Col(
-            dcc.RadioItems(
-                id='spend_metric',
-                options=[
-                    {'label': '% of GDP', 'value': 'PC_GDP'},
-                    {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
-                    {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
-                    {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
-                ],
-                value='TOTAL_SPEND',  # Default selection
-                labelStyle={'display': 'inline-block', 'marginRight': '0.938rem'}
-            ),
-        )
-    ],
-    style = {'paddingBottom': '1rem'}
-)
+# metric_selection = dbc.Col(
+#     [
+#         dbc.Col(html.H5('Spend Metrics'), width=2),
+#         dbc.Col(
+#             dcc.RadioItems(
+#                 id='spend_metric',
+#                 options=[
+#                     {'label': '% of GDP', 'value': 'PC_GDP'},
+#                     {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
+#                     {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
+#                     {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
+#                 ],
+#                 value='PC_GDP',  # Default selection
+#                 labelStyle={'display': 'inline-block', 'marginRight': '0.938rem'}
+#             ),
+#         )
+#     ],
+#     style = {'paddingBottom': '1rem'}
+# )
 
 # Charts
 map_chart = dvc.Vega(id='map_chart', spec={})
@@ -159,7 +174,7 @@ app.layout = dbc.Container(
             sidebar,
             dbc.Col([
                 summary,
-                metric_selection,
+                # metric_selection,
                 dbc.Row(dbc.Col(map_chart)),
                 dbc.Row([
                     dbc.Col(timeseries_chart, width=6),
