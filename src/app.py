@@ -96,7 +96,14 @@ sidebar = dbc.Col(
     }
 )
 
-card_style = {'height': '125px'}
+
+card_style = {
+    "height": "125px",
+    "backgroundColor": "#e6e6e6",  # Light gray background 
+    "borderRadius": "10px",  # Rounded corners
+    "boxShadow": "0px 2px 10px rgba(0, 0, 0, 0.1)",  # Light shadow 
+    "padding": "5px"
+}
 
 # Summary status (Celine)
 summary = dcc.Loading(
