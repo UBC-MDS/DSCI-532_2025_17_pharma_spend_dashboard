@@ -13,7 +13,6 @@ Pharmaceutical Spending Dashboard is hosted on the Render platform, and can be a
 - Choropleth Map (Top Left): Displays geographic distribution of spending.
 - Time Series Chart (Top Right): Shows spending trends over time.
 - Bar Graph (Bottom Left): Breaks down overall spending by countries.
-- Pie Chart (Bottom Right): Highlights the proportional distribution of spending across selected countries.
 - Summary statistic
 ### Interactions
 The user can customize the view of the dashboard by interacting with:

@@ -151,7 +151,6 @@ metric_selection = dbc.Row(
 map_chart = dvc.Vega(id='map_chart', spec={})
 timeseries_chart = dvc.Vega(id='timeseries_chart', spec={})
 bar_chart = dvc.Vega(id='bar_chart', spec={})
-pie_chart = dvc.Vega(id='pie_chart', spec={})
 
 # App layout
 app.layout = dbc.Container(
@@ -161,14 +160,11 @@ app.layout = dbc.Container(
             dbc.Col([
                 summary,
                 metric_selection,
+                dbc.Row(dbc.Col(map_chart)),
                 dbc.Row([
-                    dbc.Col(map_chart, width=6),
-                    dbc.Col(timeseries_chart, width=6)
-                ]),
-                dbc.Row([
-                    dbc.Col(bar_chart, width=6),
-                    dbc.Col(pie_chart, width=6)
-                ])
+                    dbc.Col(timeseries_chart, width=6),
+                    dbc.Col(bar_chart, width=6)
+                ], style = {'paddingTop': '1.25rem'})
             ], style = {'paddingLeft': '1.25rem', 'paddingTop': '0.625rem'})
         ])
     ],

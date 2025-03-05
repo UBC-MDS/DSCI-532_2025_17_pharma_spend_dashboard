@@ -12,7 +12,7 @@ def create_map_chart(filtered_data_merged, spend_metric, spend_metric_label):
     """
     Creates a map chart
     """
-    map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
+    map = alt.Chart(filtered_data_merged, width=850).mark_geoshape(stroke='white', color='lightgrey').encode()    
     chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,
@@ -46,7 +46,7 @@ def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_yea
     """
     Creates a time series chart
     """
-    line = alt.Chart(filtered_data).mark_line().encode(
+    line = alt.Chart(filtered_data, width='container').mark_line().encode(
         x=alt.X('TIME:Q', title="Year").axis(format="d"),
         y=alt.Y(spend_metric, title=f"{spend_metric_label}"),
         color=alt.Color('LOCATION', legend=alt.Legend(title="Country")),
@@ -70,25 +70,11 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     """
     Creates a bar chart
     """    
-    bar_chart = alt.Chart(avg_data).mark_bar(color="steelblue").encode(
+    bar_chart = alt.Chart(avg_data, width='container', height=300).mark_bar(color="steelblue").encode(
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
         y=alt.Y('LOCATION:N', title="Country", sort='-x'),  
         tooltip=['LOCATION', f'mean({spend_metric})']
     ).properties(
-        title=f"Average {spend_metric_label} by Country",
-        height = 250
+        title=f"Average {spend_metric_label} by Country"
     )
     return bar_chart
-
-def create_pie_chart(avg_data, spend_metric, spend_metric_label):
-    """
-    Creates a pie chart
-    """
-    pie_chart = alt.Chart(avg_data).mark_arc().encode(
-        theta=alt.Theta(field=spend_metric, type='quantitative', stack=True),
-        color=alt.Color(field='LOCATION', type='nominal', legend=alt.Legend(title="Country")),
-        tooltip=['LOCATION', spend_metric]
-    ).properties(
-        title=f'Average {spend_metric_label} by Country'
-    )
-    return pie_chart

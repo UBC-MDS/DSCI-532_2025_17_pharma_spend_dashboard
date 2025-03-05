@@ -96,7 +96,6 @@ def update_summary(countries, year_from, year_to, spend_metric):
     Output('map_chart', 'spec'),
     Output('timeseries_chart', 'spec'),
     Output('bar_chart', 'spec'),
-    Output('pie_chart', 'spec'),
     Input('country_select', 'value'),
     Input('start_year_select', 'value'),
     Input('end_year_select', 'value'),
@@ -140,10 +139,5 @@ def create_chart(country_select, start_year_select, end_year_select, spend_metri
     bar_chart = create_bar_chart(avg_data, 
                                  spend_metric, 
                                  spend_metric_label)
-    
-    # Pie Chart (Catherine)
-    pie_chart = create_pie_chart(avg_data, 
-                                 spend_metric, 
-                                 spend_metric_label)
 
-    return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"), pie_chart.to_dict(format="vega")
+    return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")
