@@ -102,39 +102,37 @@ card_style = {'height': '125px'}
 summary = dcc.Loading(
     children=dbc.Row(
         [
-            dbc.Row([
-                dbc.Col(dbc.Card([
-                    dbc.CardBody([
-                        html.H6("Avg % GDP"),
-                        html.H2(id="gdp-value", style={"fontWeight": "bold"}),  
-                        html.P(id="gdp-growth", style={"color": "green", "fontSize": "14px"})  
-                    ])
-                ], style=card_style), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H6("Avg % GDP"),
+                    html.H2(id="gdp-value", style={"fontWeight": "bold"}),  
+                    html.P(id="gdp-growth", style={"color": "green", "fontSize": "14px"})  
+                ])
+            ], style=card_style), md=3),
 
-                dbc.Col(dbc.Card([
-                    dbc.CardBody([
-                        html.H6("Avg % of Health Spending"),
-                        html.H2(id="health-value", style={"fontWeight": "bold"}),
-                        html.P(id="health-growth", style={"color": "green", "fontSize": "14px"})
-                    ])
-                ], style=card_style), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H6("Avg % of Health Spending"),
+                    html.H2(id="health-value", style={"fontWeight": "bold"}),
+                    html.P(id="health-growth", style={"color": "green", "fontSize": "14px"})
+                ])
+            ], style=card_style), md=3),
 
-                dbc.Col(dbc.Card([
-                    dbc.CardBody([
-                        html.H6("Avg Spend per Capita (USD)"),
-                        html.H2(id="capita-value", style={"fontWeight": "bold"}),
-                        html.P(id="capita-growth", style={"color": "green", "fontSize": "14px"})
-                    ])
-                ], style=card_style), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H6("Avg Spend per Capita (USD)"),
+                    html.H2(id="capita-value", style={"fontWeight": "bold"}),
+                    html.P(id="capita-growth", style={"color": "green", "fontSize": "14px"})
+                ])
+            ], style=card_style), md=3),
 
-                dbc.Col(dbc.Card([
-                    dbc.CardBody([
-                        html.H6("Avg Total Spend (USD B)"),
-                        html.H2(id="total-value", style={"fontWeight": "bold"}),
-                        html.P(id="total-growth", style={"color": "green", "fontSize": "14px"})
-                    ])
-                ], style=card_style), width=3),
-            ])
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H6("Avg Total Spend (USD B)"),
+                    html.H2(id="total-value", style={"fontWeight": "bold"}),
+                    html.P(id="total-growth", style={"color": "green", "fontSize": "14px"})
+                ])
+            ], style=card_style), md=3),
         ],
         style={'paddingBottom': '1rem'}
     ),
@@ -163,9 +161,28 @@ summary = dcc.Loading(
 # )
 
 # Charts
-map_chart = dvc.Vega(id='map_chart', spec={})
-timeseries_chart = dvc.Vega(id='timeseries_chart', spec={})
-bar_chart = dvc.Vega(id='bar_chart', spec={})
+map_chart = dbc.Card([
+    dbc.CardHeader(html.H5('Map Chart', style={'fontWeight': 'bold'})),
+    dbc.CardBody(
+        dvc.Vega(id='map_chart', spec={}),
+        className="d-flex justify-content-center w-100",
+        style={"height": "100%"}
+    ) 
+], style={"width": "100%", "height": "100%"})
+
+timeseries_chart = dbc.Card([
+    dbc.CardHeader(html.H5('Time Series Chart', style={'fontWeight': 'bold'})),
+    dbc.CardBody([
+        dvc.Vega(id='timeseries_chart', spec={})
+    ])    
+])
+    
+bar_chart = dbc.Card([
+    dbc.CardHeader(html.H5('Bar Chart', style={'fontWeight': 'bold'})),
+    dbc.CardBody([
+        dvc.Vega(id='bar_chart', spec={})
+    ])
+])
 
 # App layout
 app.layout = dbc.Container(
@@ -174,13 +191,12 @@ app.layout = dbc.Container(
             sidebar,
             dbc.Col([
                 summary,
-                # metric_selection,
-                dbc.Row(dbc.Col(map_chart)),
+                dbc.Row(dbc.Col(map_chart, md=12)),
                 dbc.Row([
-                    dbc.Col(timeseries_chart, width=6),
-                    dbc.Col(bar_chart, width=6)
+                    dbc.Col(timeseries_chart, md=6),
+                    dbc.Col(bar_chart, md=6)
                 ], style = {'paddingTop': '1.25rem'})
-            ], style = {'paddingLeft': '1.25rem', 'paddingTop': '0.625rem'})
+            ], style = {'paddingLeft': '1.25rem', 'paddingRight': '2.5rem', 'paddingTop': '0.625rem'})
         ])
     ],
     fluid=True,
