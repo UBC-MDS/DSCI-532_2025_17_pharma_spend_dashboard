@@ -97,13 +97,11 @@ sidebar = dbc.Col(
     }
 )
 
-
 card_style = {
-    "height": "125px",
+    "height": "140px",
     "backgroundColor": "#e6e6e6",  # Light gray background 
     "borderRadius": "10px",  # Rounded corners
-    "padding": "5px",
-    "paddingTop": "0.75rem"
+    "padding": "5px"
 }
 
 # Summary status (Celine)
@@ -142,7 +140,7 @@ summary = dcc.Loading(
                 ])
             ], style=card_style), md=3),
         ],
-        style={'paddingBottom': '1rem', "paddingTop": "0.625rem"}
+        style={'paddingBottom': '1rem'}
     ),
     type="cube", fullscreen=False, color="white"
 )
