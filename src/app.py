@@ -23,7 +23,8 @@ server = app.server
 data, world_countries = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
 # get the locations and years from the original dataset
-locations = data['LOCATION'].unique()
+data = pd.merge(data, world_countries, on='LOCATION', how='left')
+locations = data['name'].unique()
 times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
 max_year = data['TIME'].max()
@@ -39,7 +40,7 @@ sidebar = dbc.Col(
         dcc.Dropdown(
             id='country_select', 
             options=[{'label': country, 'value': country} for country in locations], 
-            value=['CAN', 'USA', 'MEX'], 
+            value=['Canada', 'United States of America', 'Mexico'], 
             multi=True
         ),
         html.Br(),
