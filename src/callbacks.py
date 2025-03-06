@@ -86,9 +86,9 @@ def update_summary(countries, year_from, year_to, spend_metric):
         growth = ((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100
         
         if growth > 0:
-            return f"+{growth:.1f}% Growth", {"color": "green"}
+            return f"+{growth:.1f}% Growth", {"color": "green", "textAlign": "center"}
         else:
-            return f"{growth:.1f}% Growth", {"color": "red"}
+            return f"{growth:.1f}% Growth", {"color": "red", "textAlign": "center"}
 
     # Compute summary stats
     gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
