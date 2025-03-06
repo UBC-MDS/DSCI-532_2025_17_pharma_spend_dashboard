@@ -17,6 +17,7 @@ from src.preprocessing import preprocess
 import src.callbacks
 from src.components.sidebar import create_sidebar
 from src.components.summary import summary
+from src.components.charts import map_chart, timeseries_chart, bar_chart
 
 # Initiatlize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
@@ -34,30 +35,6 @@ max_year = data['TIME'].max()
 
 # Create the sidebar
 sidebar = create_sidebar(locations, times, min_year, max_year)
-
-# Charts
-map_chart = dbc.Card([
-    dbc.CardHeader(html.H5('Map Chart', style={'fontWeight': 'bold'})),
-    dbc.CardBody(
-        dvc.Vega(id='map_chart', spec={}),
-        className="d-flex justify-content-center w-100",
-        style={"height": "100%"}
-    ) 
-], style={"width": "100%", "height": "100%"})
-
-timeseries_chart = dbc.Card([
-    dbc.CardHeader(html.H5('Time Series Chart', style={'fontWeight': 'bold'})),
-    dbc.CardBody([
-        dvc.Vega(id='timeseries_chart', spec={})
-    ])    
-])
-    
-bar_chart = dbc.Card([
-    dbc.CardHeader(html.H5('Bar Chart', style={'fontWeight': 'bold'})),
-    dbc.CardBody([
-        dvc.Vega(id='bar_chart', spec={})
-    ])
-])
 
 # App layout
 app.layout = dbc.Container(
