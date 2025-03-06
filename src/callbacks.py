@@ -76,7 +76,7 @@ def update_end_year_select_options(start, end):
 #             return f"{growth:.1f}% Growth", {"color": "red"}
         
 def update_summary(countries, year_from, year_to, spend_metric):
-    filtered_data = data.query("LOCATION in @countries and @year_from <= TIME <= @year_to")
+    filtered_data = data.query("name in @countries and @year_from <= TIME <= @year_to")
 
     if filtered_data.empty:
         return ["N/A"] * 8 + [{}] * 4  
@@ -86,9 +86,9 @@ def update_summary(countries, year_from, year_to, spend_metric):
         growth = ((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100
         
         if growth > 0:
-            return f"+{growth:.1f}% Growth", {"color": "green"}
+            return f"+{growth:.1f}% Growth", {"color": "green", "textAlign": "center"}
         else:
-            return f"{growth:.1f}% Growth", {"color": "red"}
+            return f"{growth:.1f}% Growth", {"color": "red", "textAlign": "center"}
 
     # Compute summary stats
     gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
@@ -122,11 +122,11 @@ def update_summary(countries, year_from, year_to, spend_metric):
 def create_chart(country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
     # Filter data by countries and years
     filtered_data = data[
-        data['LOCATION'].isin(country_select) &  # Filter by selected countries
+        data['name'].isin(country_select) &  # Filter by selected countries
         data['TIME'].between(start_year_select, end_year_select)  # Filter TIME between years
     ]
     # Get average data group by country and year
-    avg_data = filtered_data.groupby('LOCATION')[spend_metric].mean().reset_index()
+    avg_data = filtered_data.groupby('name')[spend_metric].mean().reset_index()
     spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
 
     # Merge average data with geometry
