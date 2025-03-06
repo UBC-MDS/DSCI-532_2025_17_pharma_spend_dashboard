@@ -3,11 +3,10 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 card_style = {
-    "height": "125px",
+    "height": "140px",
     "backgroundColor": "#e6e6e6",  # Light gray background 
     "borderRadius": "10px",  # Rounded corners
-    "padding": "5px",
-    "paddingTop": "0.75rem"
+    "padding": "5px"
 }
 
 summary = dcc.Loading(

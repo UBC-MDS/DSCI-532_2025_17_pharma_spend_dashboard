@@ -1,11 +1,6 @@
-from dash import Dash, html, dcc, callback, Output, Input
-import dash_bootstrap_components as dbc
-import dash_vega_components as dvc
+
 import pandas as pd
-import geopandas as gpd
 import altair as alt
-import sys
-import os
 from datetime import datetime
 
 def create_map_chart(filtered_data_merged, spend_metric, spend_metric_label):
@@ -71,7 +66,7 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     """    
     bar_chart = alt.Chart(avg_data, width='container', height=300).mark_bar(color="teal").encode(
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
-        y=alt.Y('name:N', title="Country", sort='-x'),  
+        y=alt.Y('name:N', title="Country", sort='x'),  
         tooltip=['name', f'mean({spend_metric})']
     ).properties(
         title=f"Average {spend_metric_label} by Country"
