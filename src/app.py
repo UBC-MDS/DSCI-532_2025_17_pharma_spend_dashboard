@@ -102,7 +102,8 @@ card_style = {
     "backgroundColor": "#e6e6e6",  # Light gray background 
     "borderRadius": "10px",  # Rounded corners
     "boxShadow": "0px 2px 10px rgba(0, 0, 0, 0.1)",  # Light shadow 
-    "padding": "5px"
+    "padding": "5px",
+    "paddingTop": "0.75rem"
 }
 
 # Summary status (Celine)
