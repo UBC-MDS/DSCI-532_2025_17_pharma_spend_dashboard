@@ -78,6 +78,7 @@ def charts_callback(data):
         # Get average data group by country and year
         avg_data = filtered_data.groupby('name')[spend_metric].mean().reset_index()
         spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
+        print("Finish filtering data!")
 
         # More efficient for large data sets
         alt.data_transformers.enable('vegafusion')
@@ -88,15 +89,19 @@ def charts_callback(data):
                                     spend_metric_label)
 
         # Time Series Chart (Jason)
-        timeseries_chart = create_time_chart(filtered_data, 
-                                            spend_metric, 
-                                            spend_metric_label, 
-                                            start_year_select, 
-                                            end_year_select)
+        timeseries_chart = create_time_chart(
+            filtered_data, 
+            spend_metric, 
+            spend_metric_label, 
+            start_year_select, 
+            end_year_select
+        )
 
         # Bar Chart (Celine)
-        bar_chart = create_bar_chart(avg_data, 
-                                    spend_metric, 
-                                    spend_metric_label)
+        bar_chart = create_bar_chart(
+            avg_data, 
+            spend_metric, 
+            spend_metric_label
+        )
 
         return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")
