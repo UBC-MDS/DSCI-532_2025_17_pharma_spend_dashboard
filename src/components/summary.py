@@ -45,5 +45,6 @@ summary = dcc.Loading(
         ],
         style={'paddingBottom': '1rem', "paddingTop": "0.625rem"}
     ),
-    type="cube", fullscreen=False, color="white"
+    type="dot", 
+    color="#008080"
 )
