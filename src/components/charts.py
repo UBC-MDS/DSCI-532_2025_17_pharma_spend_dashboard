@@ -1,13 +1,13 @@
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_vega_components as dvc
+from dash import dcc
 
 map_chart = dbc.Card([
     dbc.CardHeader(html.H5('Map Chart', style={'fontWeight': 'bold'})),
     dbc.CardBody(
-        dvc.Vega(id='map_chart', spec={}),
-        className="d-flex justify-content-center w-100",
-        style={"height": "100%"}
+        dcc.Graph(id='map_chart'),
+        style={"height": "100%", "width":"100%"}
     ) 
 ], style={"width": "100%", "height": "100%"})
 
