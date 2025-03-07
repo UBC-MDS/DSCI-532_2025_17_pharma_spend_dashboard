@@ -1,7 +1,7 @@
 from datetime import datetime
+from dash import html, dcc
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
+
 
 # Side bar for global filter
 def create_sidebar(locations, times, min_year, max_year):
@@ -17,6 +17,7 @@ def create_sidebar(locations, times, min_year, max_year):
                 value=['Canada', 'United States of America', 'Mexico'], 
                 multi=True
             ),
+            html.Div(id="warning", style={"color": "red", "marginTop": "10px"}),  # Warning message
             html.Br(),
             html.Br(),
 
