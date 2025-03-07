@@ -51,3 +51,25 @@ def summary_callback(data):
                 health_growth, health_growth_style,
                 capita_growth, capita_growth_style,
                 total_growth, total_growth_style)
+@callback(
+    [
+        Output("card-gdp", "style"),
+        Output("card-health", "style"),
+        Output("card-capita", "style"),
+        Output("card-total", "style"),
+    ],
+    Input("spend_metric", "value"),
+)
+def highlight_selected_card(spend_metric):
+    highlight_style = {
+        "border": "3px solid #008080",  # Teal border "2px solid #808080"
+        "borderRadius": "10px",
+        "backgroundColor": "#e6e6e6" #Gray
+    }
+
+    return (
+        highlight_style if spend_metric == "PC_GDP" else None,
+        highlight_style if spend_metric == "PC_HEALTHXP" else None,
+        highlight_style if spend_metric == "USD_CAP" else None,
+        highlight_style if spend_metric == "TOTAL_SPEND" else None
+        )
