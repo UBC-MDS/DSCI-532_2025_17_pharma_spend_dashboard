@@ -18,7 +18,7 @@ summary = dcc.Loading(
                     html.H2(id="gdp-value", style={"fontWeight": "bold", "textAlign": "center"}),  
                     html.P(id="gdp-growth", style={"color": "green", "fontSize": "14px"})  
                 ])
-            ], style=card_style), md=3),
+            ], id='card-gdp', style=card_style), md=3),
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
@@ -26,7 +26,7 @@ summary = dcc.Loading(
                     html.H2(id="health-value", style={"fontWeight": "bold", "textAlign": "center"}),
                     html.P(id="health-growth", style={"color": "green", "fontSize": "14px"})
                 ])
-            ], style=card_style), md=3),
+            ], id= 'card-health', style=card_style), md=3),
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
@@ -34,7 +34,7 @@ summary = dcc.Loading(
                     html.H2(id="capita-value", style={"fontWeight": "bold", "textAlign": "center"}),
                     html.P(id="capita-growth", style={"color": "green", "fontSize": "14px"})
                 ])
-            ], style=card_style), md=3),
+            ], id='card-capita', style=card_style), md=3),
 
             dbc.Col(dbc.Card([
                 dbc.CardBody([
@@ -42,7 +42,7 @@ summary = dcc.Loading(
                     html.H2(id="total-value", style={"fontWeight": "bold", "textAlign": "center"}),
                     html.P(id="total-growth", style={"color": "green", "fontSize": "14px"})
                 ])
-            ], style=card_style), md=3),
+            ], id='card-total', style=card_style), md=3),
         ],
         style={'paddingBottom': '1rem', "paddingTop": "0.625rem"}
     ),
