@@ -1,12 +1,12 @@
 from dash import Input, Output, callback
 import altair as alt
 
-def create_map_chart(filtered_data_merged, spend_metric, spend_metric_label):
+def create_map_chart(world_countries, filtered_data_merged, spend_metric, spend_metric_label):
     """
     Creates a map chart
     """
-    # map = alt.Chart(filtered_data_merged, width=400).mark_geoshape(stroke='white', color='lightgrey').encode()    
-    chart = alt.Chart(filtered_data_merged).mark_geoshape().encode(
+    map = alt.Chart(world_countries, width=800).mark_geoshape(stroke='white', color='lightgrey').encode()   
+    chart = map + alt.Chart(filtered_data_merged).mark_geoshape().encode(
         color = alt.Color(
             spend_metric,
             scale = alt.Scale(scheme='teals'),
@@ -91,27 +91,34 @@ def charts_callback(data, world_countries):
         # Get average data group by country and year
         avg_data = filtered_data.groupby('name')[spend_metric].mean().reset_index()
         spend_metric_label = next(item['label'] for item in spend_metric_options if item['value'] == spend_metric)
+        print("Finish filtering data!")
 
         # More efficient for large data sets
         alt.data_transformers.enable('vegafusion')
-        print("Finish preparing map data!")
 
         # Map Plot (Daria)
-        map = alt.Chart(world_countries, width=800).mark_geoshape(stroke='white', color='lightgrey').encode()
-        map_chart = map + create_map_chart(filtered_data, 
-                                    spend_metric, 
-                                    spend_metric_label)
+        # map = alt.Chart(world_countries, width=800).mark_geoshape(stroke='white', color='lightgrey').encode()
+        map_chart = create_map_chart(
+            world_countries, 
+            filtered_data, 
+            spend_metric, 
+            spend_metric_label
+        )
 
         # Time Series Chart (Jason)
-        timeseries_chart = create_time_chart(filtered_data, 
-                                            spend_metric, 
-                                            spend_metric_label, 
-                                            start_year_select, 
-                                            end_year_select)
+        timeseries_chart = create_time_chart(
+            filtered_data, 
+            spend_metric, 
+            spend_metric_label, 
+            start_year_select, 
+            end_year_select
+        )
 
         # Bar Chart (Celine)
-        bar_chart = create_bar_chart(avg_data, 
-                                    spend_metric, 
-                                    spend_metric_label)
+        bar_chart = create_bar_chart(
+            avg_data, 
+            spend_metric, 
+            spend_metric_label
+        )
 
         return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")
