@@ -13,11 +13,10 @@ map_chart = dbc.Card([
             type=loading_type,
             color=loading_color,
             children=[
-                dvc.Vega(id='map_chart', spec={})
+                dcc.Graph(id='map_chart')
             ]
         ),
-        className="d-flex justify-content-center w-100",
-        style={"height": "100%"}
+        style={"height": "100%", "width":"100%"}
     ) 
 ], style={"width": "100%", "height": "100%"})
 

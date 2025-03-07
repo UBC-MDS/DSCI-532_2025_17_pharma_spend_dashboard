@@ -1,38 +1,25 @@
 from dash import Input, Output, callback
+import plotly.express as px
 import altair as alt
 
-def create_map_chart(world_countries, filtered_data_merged, spend_metric, spend_metric_label):
+def create_map_chart(filtered_data, spend_metric, spend_metric_label):
     """
     Creates a map chart
     """
-    map = alt.Chart(world_countries, width=800).mark_geoshape(stroke='white', color='lightgrey').encode()   
-    chart = map + alt.Chart(filtered_data_merged).mark_geoshape().encode(
-        color = alt.Color(
-            spend_metric,
-            scale = alt.Scale(scheme='teals'),
-            legend=alt.Legend(title=f'Average {spend_metric_label}')
-        ),
-        tooltip = 'name'
-    ).project(
-        'naturalEarth1'
+    map_chart = px.choropleth(filtered_data, 
+              geojson=filtered_data.__geo_interface__, 
+              locations='LOCATION',
+              featureidkey = 'properties.LOCATION',  
+              color=spend_metric,
+              hover_data = {'name' : True, spend_metric: ':.2f', 'LOCATION': False},
+              color_continuous_scale="tealrose"
+            )
+    map_chart.update_layout(
+        width=1000,
+        coloraxis_colorbar=dict(title=spend_metric_label)
     )
     
-    bubbles = alt.Chart(filtered_data_merged).transform_calculate(
-        centroid=alt.expr.geoCentroid(None, alt.datum)
-    ).mark_circle(
-        stroke='brown',
-        fill = 'brown',
-        strokeWidth = 1,
-        opacity = 0.8
-    ).encode(
-        longitude='centroid[0]:Q',
-        latitude='centroid[1]:Q',
-        size=alt.Size(spend_metric, 
-                  legend=alt.Legend(title=None)),
-        tooltip = alt.Tooltip(spend_metric, format=".0f")
-    )
-    map_chart = chart + bubbles
-
+    map_chart.update_geos(showframe=False, lataxis=dict(range=[-60, 90]))
     return map_chart
 
 def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_year_select, end_year_select):
@@ -71,9 +58,9 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     )
     return bar_chart
 
-def charts_callback(data, world_countries):
+def charts_callback(data):
     @callback(
-        Output('map_chart', 'spec'),
+        Output('map_chart', 'figure'),
         Output('timeseries_chart', 'spec'),
         Output('bar_chart', 'spec'),
         Input('country_select', 'value'),
@@ -97,13 +84,9 @@ def charts_callback(data, world_countries):
         alt.data_transformers.enable('vegafusion')
 
         # Map Plot (Daria)
-        # map = alt.Chart(world_countries, width=800).mark_geoshape(stroke='white', color='lightgrey').encode()
-        map_chart = create_map_chart(
-            world_countries, 
-            filtered_data, 
-            spend_metric, 
-            spend_metric_label
-        )
+        map_chart = create_map_chart(filtered_data, 
+                                    spend_metric, 
+                                    spend_metric_label)
 
         # Time Series Chart (Jason)
         timeseries_chart = create_time_chart(
@@ -121,4 +104,4 @@ def charts_callback(data, world_countries):
             spend_metric_label
         )
 
-        return map_chart.to_dict(format="vega"), timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")
+        return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")

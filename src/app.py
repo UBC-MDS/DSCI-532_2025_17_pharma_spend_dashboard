@@ -27,7 +27,7 @@ server = app.server
 raw_data, world_countries = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
 # get the locations and years from the original dataset
-data = pd.merge(raw_data, world_countries, on='LOCATION', how='left')
+data = pd.merge(world_countries, raw_data, on='LOCATION', how='inner')
 locations = data['name'].unique()
 times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
@@ -38,15 +38,8 @@ sidebar = create_sidebar(locations, times, min_year, max_year)
 
 # Callbacks
 year_selection_callback(times) 
-# merge data
-merge_data = pd.merge(
-    world_countries,
-    raw_data,
-    on='LOCATION',
-    how='inner'
-)
-summary_callback(merge_data)
-charts_callback(merge_data, world_countries)
+summary_callback(data)
+charts_callback(data)
 
 # App layout
 app.layout = dbc.Container(
