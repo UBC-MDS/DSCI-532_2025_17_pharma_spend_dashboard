@@ -52,3 +52,4 @@
 
 3. Challenging
 - We attempted the challenging question by adding borders to our charts to make the dashboard more structured. We were inspired from Group 18’s dashboard, where they used subtle borders to help separate elements in a clean and effective way. Seeing how it improved readability in their design, we decided to implement a similar approach to enhance our own dashboard.
+- When swapping to the new plotly px.choropleth map, we had a hard time changing the default map position to not show Antarctica. We took inspiration from group 15 which had a clever work around by using `map_chart.update_geos(showframe=False, lataxis=dict(range=[-60, 90]))`.
