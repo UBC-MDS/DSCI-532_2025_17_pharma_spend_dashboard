@@ -37,9 +37,13 @@
 1. What the dashboard does well
 - From an aesthetics standpoint, the dashboard is now a lot more visually cohesive and organised.  
 - From a performance perspective, the dashboard now loads quicker and runs faster compared to the previous version.
-
+- With interactive filters and multiple spend metrics, the dashboard gives users plenty of ways to explore the data in detail.
+  
 2. Limitations of the dashboard
 - Our data set has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. In this milestone, we addressed this issue by changing the default year to 2000 (where there is less missingness in the data) instead of 1970.
 
 4. Good potential future improvements and additions
-- while the loading performance has significantly improved compared to milestone 2 submission, we can look into further optimizing the performance by implementing dask or other parallel computing techniques.
+- While the loading performance has significantly improved compared to milestone 2 submission, we can look into further optimizing the performance by implementing dask or other parallel computing techniques.
+
+3. Challenging
+- We attempted the challenging question by adding borders to our charts to make the dashboard more structured. We were inspired from Group 18’s dashboard, where they used subtle borders to help separate elements in a clean and effective way. Seeing how it improved readability in their design, we decided to implement a similar approach to enhance our own dashboard.
