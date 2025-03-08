@@ -6,22 +6,22 @@ loading_color = "#008080"
 loading_type = "dot"
 
 map_chart = dbc.Card([
-    dbc.CardHeader(html.H5('Map Chart', style={'fontWeight': 'bold'})),
+    dbc.CardHeader(html.H6(id='map_title', style={'fontWeight': 'bold', "margin": "2px", "padding": "0px"})),
     dbc.CardBody(
          dcc.Loading(  # Add loading spinner
             id="loading-map",
             type=loading_type,
             color=loading_color,
             children=[
-                dcc.Graph(id='map_chart')
+                dcc.Graph(id='map_chart', style = {"height": "100%", "width": "100%", "padding": "0px", "overflow": "hidden"}) 
             ]
         ),
-        style={"height": "100%", "width":"100%"}
+        style={"height": "350px", "padding": "0px", "overflow": "hidden"}
     ) 
-], style={"width": "100%", "height": "100%"})
+], style={"width": "100%", "height": "450px", "padding": "0px", "overflow": "hidden"})
 
 timeseries_chart = dbc.Card([
-    dbc.CardHeader(html.H5('Time Series Chart', style={'fontWeight': 'bold'})),
+    dbc.CardHeader(html.H6(id='timeseries_title', style={'fontWeight': 'bold', "margin": "2px"})),
     dbc.CardBody([
         dcc.Loading(
             id="loading-timeseries",
@@ -33,7 +33,7 @@ timeseries_chart = dbc.Card([
 ])
     
 bar_chart = dbc.Card([
-    dbc.CardHeader(html.H5('Bar Chart', style={'fontWeight': 'bold'})),
+    dbc.CardHeader(html.H6(id='bar_title', style={'fontWeight': 'bold', "margin": "2px"})),
     dbc.CardBody([
         dcc.Loading(
             id="loading-bar",
