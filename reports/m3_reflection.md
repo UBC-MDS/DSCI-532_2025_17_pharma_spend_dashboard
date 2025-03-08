@@ -7,7 +7,7 @@
 
 - Minor implementations:
   - The pie chart from milestone 2 has been removed.
-  - All charts are now placed into cards. Each card has a card header with the title of the chart. (we were inspired by team 18's milestone 1 implementation of this https://canadian-house-prices.onrender.com . They have a similar dashboard layout to ours so after seeing their charts inside of cards, it became readily apparent that this was next logical step for our project!)
+  - All charts are now placed into cards. Each card has a card header with the title of the chart. **(we were inspired by team 18's milestone 1 implementation of this https://canadian-house-prices.onrender.com . They have a similar dashboard layout to ours so after seeing their charts inside of cards, it became readily apparent that this was next logical step for our project!)**
   - Due to visual clutter, bubbles on the map chart have been removed.
   - The country filter in the sidebar now has a max selection limit of 10 countries.
   - A minimal loading animation has been added for all charts.
@@ -23,16 +23,17 @@
 ## Impending Implementations
 - We will look into whether it is possible to make the summary cards a clickable button that selects the spend metric. This was a stretch goal suggested by Joel.
 
-
 ## Differences compared to initial proposal / sketch
+- Pie chart has been removed due to redundancy in information conveyed together with the bar chart
+- Radio buttons moved to the left side bar
 
 ## Corner Cases
+- There is some missing data for earlier years (1970-1990s). In the later milestone we will add a warning/disclaimer about comparing averages with missing data.
 
 ## Deviations from DSCI_531 best practices
 - We have attempted to adhere strictly to DSCI_531 best practices
 
 ## Other reflections
-
 1. What the dashboard does well
 - From an aesthetics standpoint, the dashboard is now a lot more visually cohesive and organised.  
 - From a performance perspective, the dashboard now loads quicker and runs faster compared to the previous version.
@@ -41,3 +42,4 @@
 - Our data set has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. In this milestone, we addressed this issue by changing the default year to 2000 (where there is less missingness in the data) instead of 1970.
 
 4. Good potential future improvements and additions
+- while the loading performance has significantly improved compared to milestone 2 submission, we can look into further optimizing the performance by implementing dask or other parallel computing techniques.
