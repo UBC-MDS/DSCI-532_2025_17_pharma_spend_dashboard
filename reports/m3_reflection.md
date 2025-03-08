@@ -17,6 +17,7 @@
   - The bar chart is now sorted in ascending order to adhere to DSCI_531 best practices
   - Summary card padding has been adjusted to be more compact
   - Starting year is now 2000 by default (as this is the inflection point where most countries in the dataset have available data)
+  - Added a collapsable "About" button to give the sidebar a more clean appearance. When the button is clicked, more details about the project appear.
   - Minor padding / font size adjustments 
 
 ## Impending Implementations
@@ -37,5 +38,6 @@
 - From a performance perspective, the dashboard now loads quicker and runs faster compared to the previous version.
 
 2. Limitations of the dashboard
+- Our data set has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. In this milestone, we addressed this issue by changing the default year to 2000 (where there is less missingness in the data) instead of 1970.
 
-3. Good potential future improvements and additions
+4. Good potential future improvements and additions
