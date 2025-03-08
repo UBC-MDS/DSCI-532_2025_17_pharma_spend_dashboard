@@ -47,7 +47,7 @@ def create_sidebar(locations, times, min_year, max_year):
 
     sidebar = dbc.Col(
         [
-            html.H1('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
+            html.H2('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
             html.Br(),
             html.Hr(),
 
@@ -59,7 +59,6 @@ def create_sidebar(locations, times, min_year, max_year):
                 multi=True
             ),
             html.Div(id="warning", style={"color": "red", "marginTop": "10px"}),  # Warning message
-            html.Br(),
             html.Hr(),
 
             html.H5('Year', style={'fontWeight': 'bold'}),
