@@ -23,8 +23,12 @@
 ## Impending Implementations
 - We will look into whether it is possible to make the summary cards a clickable button that selects the spend metric. This was a stretch goal suggested by Joel.
 
-
 ## Differences compared to initial proposal / sketch
+- Pie chart has been removed due to redundancy in information conveyed together with the bar chart
+- Radio buttons moved to the left side bar
+
+## Corner Cases
+- There is some missing data for earlier years (1970-1990s). In the later milestone we will add a warning/disclaimer about comparing averages with missing data.
 - The pie chart has been removed, as it conveyed redundant information with the bar chart
 - Radio buttons moved from the body to the left side bar
 
@@ -35,13 +39,16 @@
 - We have attempted to adhere strictly to DSCI_531 best practices
 
 ## Other reflections
-
 1. What the dashboard does well
 - From an aesthetics standpoint, the dashboard is now a lot more visually cohesive and organised.  
 - From a performance perspective, the dashboard now loads quicker and runs faster compared to the previous version.
-
+- With interactive filters and multiple spend metrics, the dashboard gives users plenty of ways to explore the data in detail.
+  
 2. Limitations of the dashboard
 - Our data set has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. In this milestone, we addressed this issue by changing the default year to 2000 (where there is less missingness in the data) instead of 1970.
 
 4. Good potential future improvements and additions
-- While the loading performance was significantly improved, we can further investigate using Dask or other parallel computing techniques to further improve the dashboard performance.
+- While the loading performance has significantly improved compared to milestone 2 submission, we can look into further optimizing the performance by implementing dask or other parallel computing techniques.
+
+3. Challenging
+- We attempted the challenging question by adding borders to our charts to make the dashboard more structured. We were inspired from Group 18’s dashboard, where they used subtle borders to help separate elements in a clean and effective way. Seeing how it improved readability in their design, we decided to implement a similar approach to enhance our own dashboard.
