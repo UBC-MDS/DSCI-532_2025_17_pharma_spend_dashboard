@@ -5,10 +5,51 @@ import dash_bootstrap_components as dbc
 
 # Side bar for global filter
 def create_sidebar(locations, times, min_year, max_year):
+
+    collapse_button = dbc.Button(
+                "About", 
+                id="collapse-button",
+                outline=True,
+                style={
+                    'width': '100px',
+                    'background-color': '#008080',
+                    'color': 'white',
+                    'margin-top': 10
+        }
+    )
+
+    collapse_section = dbc.Collapse(
+    dbc.Card(
+        dbc.CardBody([
+            html.P(
+                "This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", 
+                style={'fontSize': '14px', 'lineHeight': '1.5'}
+            ),
+            html.P([html.Strong("By: "), "Jason Lee, Daria Khon, Celine Habashy, Catherine Meng"], 
+                   style={'fontSize': '14px', 'lineHeight': '1.5'}),
+            html.P([html.Strong("Data: "), "Organisation for Economic Cooperation and Development"], 
+                   style={'fontSize': '14px', 'lineHeight': '1.5'}),
+            html.P([html.Strong("Source code: "),  html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", 
+                   target="_blank", style={'color': 'blue', 'fontSize': '14px'})], style={'fontSize': '14px', 'lineHeight': '1.5'}),
+            html.P([html.Strong("Last updated: "),  datetime.now().strftime('%B %d, %Y')
+                ], style={'fontSize': '14px', 'lineHeight': '1.5'}),
+        ]),
+        style={
+            'backgroundColor': '#ffffff',  # White background
+            'padding': '5px',
+            'border': '1px solid #ddd',  # Light grey border
+            'borderRadius': '10px',  # Rounded corners
+        }
+    ),
+    id="collapse",
+    is_open=False
+)
+
     sidebar = dbc.Col(
         [
-            html.H3('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
+            html.H1('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
             html.Br(),
+            html.Hr(),
 
             html.H5('Country', style={'fontWeight': 'bold'}),
             dcc.Dropdown(
@@ -19,13 +60,14 @@ def create_sidebar(locations, times, min_year, max_year):
             ),
             html.Div(id="warning", style={"color": "red", "marginTop": "10px"}),  # Warning message
             html.Br(),
+            html.Hr(),
 
             html.H5('Year', style={'fontWeight': 'bold'}),
             html.P('From', style={'marginBottom': '0.375rem'}),
             dcc.Dropdown(
                 id='start_year_select',
                 options=[{'label': str(year), 'value': year} for year in times],
-                value=min_year,  # Default start by the minimal year
+                value=2000,  # Default start in 2000
                 clearable=False
             ),
             html.P('To', style={'marginTop': '0.375rem'}),
@@ -36,6 +78,7 @@ def create_sidebar(locations, times, min_year, max_year):
                 clearable=False
             ),
             html.Br(),
+            html.Hr(),
             
             html.H5('Spend Metrics', style={'fontWeight': 'bold'}),
             dcc.RadioItems(
@@ -51,13 +94,13 @@ def create_sidebar(locations, times, min_year, max_year):
             ),
             
             html.Br(),
+            html.Hr(),
 
-            html.H5('About:', style={'fontWeight': 'bold'}),
-            html.P("This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", style={'fontSize': '12px'}),
-            html.P('By: Jason Lee, Daria Khon, Celine Habashy, Catherine Meng', style={'fontSize': '12px'}),
-            html.P("Data: Organisation for Economic Cooperation and Development", style={'fontSize': '12px'}),
-            html.P(["Source code: ", html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", target="_blank", style={'color': 'blue', 'fontSize': '12px'})], style={'fontSize': '12px'}),
-            html.P("Last updated: {}".format(datetime.now().strftime('%B %d, %Y')), style={'fontSize': '12px'})
+            collapse_button,
+            html.Br(),
+            html.Br(),
+            collapse_section
+
         ],
         md=3,
         style={

@@ -17,6 +17,7 @@ from src.components.charts import map_chart, timeseries_chart, bar_chart
 from src.callbacks.yearselection import year_selection_callback
 from src.callbacks.summary import summary_callback
 from src.callbacks.charts import charts_callback
+from src.callbacks.buttons import toggle_collapse
 import src.callbacks.countryselection
 
 # Initiatlize the app
