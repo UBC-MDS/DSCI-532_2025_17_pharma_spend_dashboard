@@ -14,9 +14,15 @@ def create_map_chart(filtered_data, spend_metric, spend_metric_label):
               hover_data = {'name' : True, spend_metric: ':.2f', 'LOCATION': False},
               color_continuous_scale="tealrose"
             )
+    
+    map_chart.update_coloraxes(reversescale=True)
     map_chart.update_layout(
-        width=1000,
-        coloraxis_colorbar=dict(title=spend_metric_label)
+        autosize=True,
+        coloraxis_colorbar=dict(title=spend_metric_label,
+                                thickness=10,
+                                len=0.5,
+                                x=1),
+        margin=dict(l=0, r=0, t=10, b=0)
     )
     
     map_chart.update_geos(showframe=False, lataxis=dict(range=[-60, 90]))
@@ -40,9 +46,7 @@ def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_yea
         tooltip=['name', spend_metric]
     )
 
-    timeseries_chart = (line + points).properties(
-        title= f'{spend_metric_label} by Country ({start_year_select} to {end_year_select})'
-    )
+    timeseries_chart = (line + points)
     return timeseries_chart
 
 def create_bar_chart(avg_data, spend_metric, spend_metric_label):
@@ -53,8 +57,6 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
         y=alt.Y('name:N', title="Country", sort='x'),  
         tooltip=['name', f'mean({spend_metric})']
-    ).properties(
-        title=f"Average {spend_metric_label} by Country"
     )
     return bar_chart
 
@@ -63,6 +65,9 @@ def charts_callback(data):
         Output('map_chart', 'figure'),
         Output('timeseries_chart', 'spec'),
         Output('bar_chart', 'spec'),
+        Output('map_title', 'children'),
+        Output('timeseries_title', 'children'),
+        Output('bar_title', 'children'),
         Input('country_select', 'value'),
         Input('start_year_select', 'value'),
         Input('end_year_select', 'value'),
@@ -84,11 +89,13 @@ def charts_callback(data):
         alt.data_transformers.enable('vegafusion')
 
         # Map Plot (Daria)
+        map_title = f'{spend_metric_label} by Country'
         map_chart = create_map_chart(filtered_data, 
                                     spend_metric, 
                                     spend_metric_label)
 
         # Time Series Chart (Jason)
+        timeseries_title = f'{spend_metric_label} by Country ({start_year_select} to {end_year_select})'
         timeseries_chart = create_time_chart(
             filtered_data, 
             spend_metric, 
@@ -98,10 +105,11 @@ def charts_callback(data):
         )
 
         # Bar Chart (Celine)
+        bar_title = f'Average {spend_metric_label} by Country'
         bar_chart = create_bar_chart(
             avg_data, 
             spend_metric, 
             spend_metric_label
         )
 
-        return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega")
+        return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"),map_title, timeseries_title, bar_title

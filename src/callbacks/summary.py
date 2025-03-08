@@ -31,9 +31,9 @@ def summary_callback(data):
             growth = ((df.iloc[-1] - df.iloc[0]) / df.iloc[0]) * 100
             
             if growth > 0:
-                return f"+{growth:.1f}% Growth", {"color": "green", "textAlign": "center"}
+                return f"+{growth:.1f}% Growth", {"color": "green", "textAlign": "center", "marginBottom": "1px"}
             else:
-                return f"{growth:.1f}% Growth", {"color": "red", "textAlign": "center"}
+                return f"{growth:.1f}% Growth", {"color": "red", "textAlign": "center", "marginBottom": "1px"}
 
         # Compute summary stats
         gdp_value = f"{filtered_data['PC_GDP'].mean():.2f}%"
