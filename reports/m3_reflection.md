@@ -8,6 +8,7 @@
 - Minor implementations:
   - The pie chart from milestone 2 has been removed.
   - All charts are now placed into cards. Each card has a card header with the title of the chart. (we were inspired by team 18's milestone 2 implementation of this https://canadian-house-prices.onrender.com . They have a similar dashboard layout to ours so after seeing their charts inside of cards, it became readily apparent that this was next logical step for our project!)
+  - Code that generates the map has been updated to improve dashboard loading times.
   - Due to visual clutter, bubbles on the map chart have been removed.
   - The country filter in the sidebar now has a max selection limit of 10 countries.
   - A minimal loading animation has been added for all charts.
