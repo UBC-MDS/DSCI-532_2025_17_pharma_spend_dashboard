@@ -25,8 +25,11 @@
 
 
 ## Differences compared to initial proposal / sketch
+- The pie chart has been removed, as it conveyed redundant information with the bar chart
+- Radio buttons moved from the body to the left side bar
 
 ## Corner Cases
+- There is some missing data in the earlier years (1970s-1990s), which would make comparing averages 'unfair'. We will add a warning/disclaimer about it in the later milestone.
 
 ## Deviations from DSCI_531 best practices
 - We have attempted to adhere strictly to DSCI_531 best practices
@@ -41,3 +44,4 @@
 - Our data set has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. In this milestone, we addressed this issue by changing the default year to 2000 (where there is less missingness in the data) instead of 1970.
 
 4. Good potential future improvements and additions
+- While the loading performance was significantly improved, we can further investigate using Dask or other parallel computing techniques to further improve the dashboard performance.
