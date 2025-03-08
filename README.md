@@ -10,9 +10,9 @@ This project is based on [Kaggle Pharmaceutical Drug Spending by countries](http
 ## Dashboard Overview
 Pharmaceutical Spending Dashboard is hosted on the Render platform, and can be accessed [here](https://dsci-532-2025-17-pharma-spend-dashboard.onrender.com/)
 ### Components
-- Choropleth Map (Top Left): Displays geographic distribution of spending.
-- Time Series Chart (Top Right): Shows spending trends over time.
-- Bar Graph (Bottom Left): Breaks down overall spending by countries.
+- Choropleth Map (Top): Displays geographic distribution of spending.
+- Time Series Chart (Bottom Left): Shows spending trends over time.
+- Bar Graph (Bottom Right): Breaks down overall spending by countries.
 - Summary statistic
 ### Interactions
 The user can customize the view of the dashboard by interacting with:
