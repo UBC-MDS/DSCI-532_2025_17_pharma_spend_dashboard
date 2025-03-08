@@ -7,7 +7,7 @@
 
 - Minor implementations:
   - The pie chart from milestone 2 has been removed.
-  - All charts are now placed into cards. Each card has a card header with the title of the chart. **(we were inspired by team 18's milestone 1 implementation of this https://canadian-house-prices.onrender.com . They have a similar dashboard layout to ours so after seeing their charts inside of cards, it became readily apparent that this was next logical step for our project!)**
+  - All charts are now placed into cards. Each card has a card header with the title of the chart. (we were inspired by team 18's milestone 2 implementation of this https://canadian-house-prices.onrender.com . They have a similar dashboard layout to ours so after seeing their charts inside of cards, it became readily apparent that this was next logical step for our project!)
   - Due to visual clutter, bubbles on the map chart have been removed.
   - The country filter in the sidebar now has a max selection limit of 10 countries.
   - A minimal loading animation has been added for all charts.
@@ -29,6 +29,11 @@
 
 ## Corner Cases
 - There is some missing data for earlier years (1970-1990s). In the later milestone we will add a warning/disclaimer about comparing averages with missing data.
+- The pie chart has been removed, as it conveyed redundant information with the bar chart
+- Radio buttons moved from the body to the left side bar
+
+## Corner Cases
+- There is some missing data in the earlier years (1970s-1990s), which would make comparing averages 'unfair'. We will add a warning/disclaimer about it in the later milestone.
 
 ## Deviations from DSCI_531 best practices
 - We have attempted to adhere strictly to DSCI_531 best practices
