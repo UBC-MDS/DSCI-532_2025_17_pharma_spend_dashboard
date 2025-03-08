@@ -53,7 +53,8 @@ app.layout = dbc.Container(
                     dbc.Col(timeseries_chart, md=6),
                     dbc.Col(bar_chart, md=6)
                 ], style = {'paddingTop': '1.25rem'})
-            ], style = {'paddingLeft': '1.25rem', 'paddingRight': '2.5rem', 'paddingTop': '0.625rem'})
+            ], 
+            style = {'paddingLeft': '1.25rem', 'paddingRight': '2.5rem', 'paddingTop': '0.625rem', 'width': '80vw'})
         ])
     ],
     fluid=True,
