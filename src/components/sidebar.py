@@ -1,7 +1,9 @@
 from datetime import datetime
 from dash import html, dcc
 import dash_bootstrap_components as dbc
+import base64
 
+encoded_image = base64.b64encode(open("img/watermark.png", "rb").read()).decode('ascii')
 
 # Side bar for global filter
 def create_sidebar(locations, times, min_year, max_year):
@@ -90,7 +92,7 @@ def create_sidebar(locations, times, min_year, max_year):
                     labelStyle={'display': 'block', 'marginRight': '0.938rem'}
             ),
             html.Hr(style={"marginTop": "1.3rem"}),
-
+            html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'width': "70%", "opacity": 0.4}),
             collapse_button,
             html.Br(),
             html.Br(),
