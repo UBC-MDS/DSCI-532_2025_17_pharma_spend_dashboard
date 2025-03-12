@@ -53,7 +53,7 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     """
     Creates a bar chart
     """    
-    bar_chart = alt.Chart(avg_data, width='container', height=300).mark_bar(color="teal").encode(
+    bar_chart = alt.Chart(avg_data, width='container', height=305).mark_bar(color="teal").encode(
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
         y=alt.Y('name:N', title="Country", sort='x'),  
         tooltip=['name', f'mean({spend_metric})']

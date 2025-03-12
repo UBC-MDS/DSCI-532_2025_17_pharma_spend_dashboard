@@ -48,8 +48,7 @@ def create_sidebar(locations, times, min_year, max_year):
     sidebar = dbc.Col(
         [
             html.H2('Global Pharmaceutical Spend Dashboard', style={'fontWeight': 'bold'}),
-            html.Br(),
-            html.Hr(),
+            html.Hr(style={"marginTop": "2rem"}),
 
             html.H5('Country', style={'fontWeight': 'bold'}),
             dcc.Dropdown(
@@ -58,8 +57,8 @@ def create_sidebar(locations, times, min_year, max_year):
                 value=['Canada', 'United States of America', 'Mexico'], 
                 multi=True
             ),
-            html.Div(id="warning", style={"color": "red", "marginTop": "10px"}),  # Warning message
-            html.Hr(),
+            html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message
+            html.Hr(style={"marginTop": "1.4rem"}),
 
             html.H5('Year', style={'fontWeight': 'bold'}),
             html.P('From', style={'marginBottom': '0.375rem'}),
@@ -76,8 +75,7 @@ def create_sidebar(locations, times, min_year, max_year):
                 value=max_year,  # Default end by the maximum year
                 clearable=False
             ),
-            html.Br(),
-            html.Hr(),
+            html.Hr(style={"marginTop": "1.4rem"}),
             
             html.H5('Spend Metrics', style={'fontWeight': 'bold'}),
             dcc.RadioItems(
@@ -91,9 +89,7 @@ def create_sidebar(locations, times, min_year, max_year):
                     value='PC_GDP',  # Default selection
                     labelStyle={'display': 'block', 'marginRight': '0.938rem'}
             ),
-            
-            html.Br(),
-            html.Hr(),
+            html.Hr(style={"marginTop": "1.3rem"}),
 
             collapse_button,
             html.Br(),
