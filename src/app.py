@@ -1,6 +1,7 @@
 from dash import Dash, dcc
 import dash_bootstrap_components as dbc
 from flask_caching import Cache
+import geopandas as gpd
 import pandas as pd
 import sys
 import os
@@ -11,7 +12,6 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the parent directory to sys.path
 sys.path.append(parent_dir)
 
-from src.data.preprocessing import preprocess
 from src.components.sidebar import create_sidebar
 from src.components.summary import summary
 from src.components.charts import map_chart, timeseries_chart, bar_chart
@@ -30,11 +30,10 @@ cache = Cache(app.server, config={
     'CACHE_DEFAULT_TIMEOUT': 300  # Cache timeout in seconds
 })
 
-# Data preprocessing
-raw_data, world_countries = preprocess("data/raw/data.csv")
+# Load data
+data = gpd.read_parquet("data/processed/data.geoparquet")
 print("Data Loading Success!")
-# get the locations and years from the original dataset
-data = pd.merge(world_countries, raw_data, on='LOCATION', how='inner')
+
 locations = data['name'].unique()
 times = sorted(data['TIME'].unique()) # integer type
 min_year = data['TIME'].min()
