@@ -25,7 +25,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 # Data preprocessing
-raw_data, world_countries = preprocess("data/raw/data.csv")
+raw_data, world_countries = preprocess("data/raw/data.parquet")
 print("Data Loading Success!")
 # get the locations and years from the original dataset
 data = pd.merge(world_countries, raw_data, on='LOCATION', how='inner')
