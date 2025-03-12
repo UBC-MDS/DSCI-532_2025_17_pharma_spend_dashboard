@@ -43,10 +43,16 @@ def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_yea
         x=alt.X('TIME:Q'),
         y=alt.Y(spend_metric),
         color='name', 
-        tooltip=['name', spend_metric]
+        tooltip=[
+            alt.Tooltip('name:N', title="Country"),
+            alt.Tooltip(spend_metric, title=spend_metric_label, format='$,.2f')
+        ]
     )
 
-    timeseries_chart = (line + points)
+    timeseries_chart = (line + points).properties(
+        usermeta={"embedOptions": {"actions": False}}
+    )
+    
     return timeseries_chart
 
 def create_bar_chart(avg_data, spend_metric, spend_metric_label):
@@ -56,8 +62,14 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     bar_chart = alt.Chart(avg_data, width='container', height=305).mark_bar(color="teal").encode(
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
         y=alt.Y('name:N', title="Country", sort='x'),  
-        tooltip=['name', f'mean({spend_metric})']
+        tooltip=[
+            alt.Tooltip('name:N', title="Country"),
+            alt.Tooltip(f'mean({spend_metric}):Q', title=spend_metric_label, format='$,.2f')
+        ]
+    ).properties(
+        usermeta={"embedOptions": {"actions": False}}
     )
+    
     return bar_chart
 
 def charts_callback(data, cache):
