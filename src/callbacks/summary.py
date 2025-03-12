@@ -1,6 +1,6 @@
 from dash import Input, Output, callback
 
-def summary_callback(data):
+def summary_callback(data, cache):
     @callback(
         Output("gdp-value", "children"),
         Output("health-value", "children"),
@@ -20,6 +20,7 @@ def summary_callback(data):
         Input("end_year_select", "value"),
         Input("spend_metric", "value"),
     ) 
+    @cache.memoize()  # Cache this function's results
     def update_summary(countries, year_from, year_to, spend_metric):
         filtered_data = data.query("name in @countries and @year_from <= TIME <= @year_to")
 
@@ -51,6 +52,7 @@ def summary_callback(data):
                 health_growth, health_growth_style,
                 capita_growth, capita_growth_style,
                 total_growth, total_growth_style)
+                
 @callback(
     [
         Output("card-gdp", "style"),

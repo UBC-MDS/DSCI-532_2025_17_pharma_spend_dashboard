@@ -60,7 +60,7 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     )
     return bar_chart
 
-def charts_callback(data):
+def charts_callback(data, cache):
     @callback(
         Output('map_chart', 'figure'),
         Output('timeseries_chart', 'spec'),
@@ -74,6 +74,7 @@ def charts_callback(data):
         Input('spend_metric', 'value'),
         Input('spend_metric', 'options')
     )
+    @cache.memoize()  # Cache this function's results
     def create_chart(country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
         # Filter data by countries and years
         filtered_data = data[

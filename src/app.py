@@ -1,5 +1,6 @@
 from dash import Dash, dcc
 import dash_bootstrap_components as dbc
+from flask_caching import Cache
 import pandas as pd
 import sys
 import os
@@ -24,6 +25,11 @@ import src.callbacks.countryselection
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
+cache = Cache(app.server, config={
+    'CACHE_TYPE': 'simple',
+    'CACHE_DEFAULT_TIMEOUT': 300  # Cache timeout in seconds
+})
+
 # Data preprocessing
 raw_data, world_countries = preprocess("data/raw/data.csv")
 print("Data Loading Success!")
@@ -39,8 +45,8 @@ sidebar = create_sidebar(locations, times, min_year, max_year)
 
 # Callbacks
 year_selection_callback(times) 
-summary_callback(data)
-charts_callback(data)
+summary_callback(data, cache)
+charts_callback(data, cache)
 
 # App layout
 app.layout = dbc.Container(
