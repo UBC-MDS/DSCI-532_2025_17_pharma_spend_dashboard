@@ -17,3 +17,7 @@ dependencies:
     - pip=24.0
     - pip:
         - dash-vega-components
+        - vegafusion==1.6.9
+        - vegafusion-python-embed==1.6.9
+        - Flask==2.2.2
+        - Werkzeug==2.2.2

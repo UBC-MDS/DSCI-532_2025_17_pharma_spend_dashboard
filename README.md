@@ -39,6 +39,12 @@ conda env create -f environment.yml
 conda activate pharma_spend_dashboard
 ```
 
+Install the required dependencies
+
+```{bash}
+pip install -r requirements.txt
+```
+
 Run dashboard locally (To activate debug mode comment out change the argument in `app.run()` to `app.run(debug=True)`)
 
 ```{bash}
