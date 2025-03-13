@@ -22,7 +22,7 @@ from src.callbacks.buttons import toggle_collapse
 import src.callbacks.countryselection
 
 # Initiatlize the app
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], title="Global Pharmaceutical Spend Dashboard")
 server = app.server
 
 cache = Cache(app.server, config={
