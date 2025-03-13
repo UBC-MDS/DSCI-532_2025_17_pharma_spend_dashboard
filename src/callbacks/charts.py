@@ -14,6 +14,19 @@ def tooltip_formatter(spend_metric_label):
         value_suffix = ""
     return tooltip_format, value_suffix
 
+def title_formatter(spend_metric_label):
+    """
+    Formats the chart titles
+    """
+    if spend_metric_label == "% of GDP":
+        return "Pharma Spend as a % of GDP"
+    elif spend_metric_label == "% of Healthcare":
+        return "Pharma Spend as a % of Healthcare"
+    elif spend_metric_label == "Spend Per Capita (USD)":
+        return "Pharma Spend Per Capita (USD)"
+    elif spend_metric_label == "Total Spend (USD B)":
+        return "Total Pharma Spend (USD B)"
+
 def create_map_chart(filtered_data, spend_metric, spend_metric_label):
     """
     Creates a map chart
@@ -81,7 +94,7 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     tooltip_format, value_suffix = tooltip_formatter(spend_metric_label)
 
     bar_chart = alt.Chart(avg_data, width='container', height=305).mark_bar(color="teal").encode(
-        x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
+        x=alt.X(f'mean({spend_metric}):Q', title=spend_metric_label),
         y=alt.Y('name:N', title="Country", sort='x'),  
         tooltip=[
             alt.Tooltip('name:N', title="Country"),
@@ -123,13 +136,13 @@ def charts_callback(data, cache):
         alt.data_transformers.enable('vegafusion')
 
         # Map Plot (Daria)
-        map_title = f'{spend_metric_label} by Country'
+        map_title = f'{title_formatter(spend_metric_label)} by Country'
         map_chart = create_map_chart(filtered_data, 
                                     spend_metric, 
                                     spend_metric_label)
 
         # Time Series Chart (Jason)
-        timeseries_title = f'{spend_metric_label} by Country ({start_year_select} to {end_year_select})'
+        timeseries_title = f'{title_formatter(spend_metric_label)} by Country ({start_year_select} to {end_year_select})'
         timeseries_chart = create_time_chart(
             filtered_data, 
             spend_metric, 
@@ -139,11 +152,11 @@ def charts_callback(data, cache):
         )
 
         # Bar Chart (Celine)
-        bar_title = f'Average {spend_metric_label} by Country'
+        bar_title = f'Average {title_formatter(spend_metric_label)} by Country'
         bar_chart = create_bar_chart(
             avg_data, 
             spend_metric, 
             spend_metric_label
         )
 
-        return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"),map_title, timeseries_title, bar_title
+        return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"), map_title, timeseries_title, bar_title
