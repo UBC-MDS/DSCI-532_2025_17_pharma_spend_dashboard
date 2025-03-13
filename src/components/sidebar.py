@@ -92,7 +92,7 @@ def create_sidebar(locations, times, min_year, max_year):
                     labelStyle={'display': 'block', 'marginRight': '0.938rem'}
             ),
             html.Hr(style={"marginTop": "1.3rem"}),
-            html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'width': "70%", "opacity": 0.4}),
+            html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'width': "70%", "opacity": 0.4, "display": "block"}),
             collapse_button,
             html.Br(),
             html.Br(),
