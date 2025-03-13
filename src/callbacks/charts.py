@@ -2,10 +2,25 @@ from dash import Input, Output, callback
 import plotly.express as px
 import altair as alt
 
+def tooltip_formatter(spend_metric_label):
+    """
+    Formats the tooltip values
+    """
+    if "GDP" in spend_metric_label or "Healthcare" in spend_metric_label:
+        tooltip_format = ".2f"  # Percentage formatting
+        value_suffix = "%"
+    else:
+        tooltip_format = "$,.2f"  # Currency formatting
+        value_suffix = ""
+    return tooltip_format, value_suffix
+
 def create_map_chart(filtered_data, spend_metric, spend_metric_label):
     """
     Creates a map chart
     """
+
+    tooltip_format, value_suffix = tooltip_formatter(spend_metric_label)
+
     map_chart = px.choropleth(filtered_data, 
               geojson=filtered_data.__geo_interface__, 
               locations='LOCATION',
@@ -32,6 +47,9 @@ def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_yea
     """
     Creates a time series chart
     """
+
+    tooltip_format, value_suffix = tooltip_formatter(spend_metric_label)
+
     line = alt.Chart(filtered_data, width='container').mark_line().encode(
         x=alt.X('TIME:Q', title="Year").axis(format="d"),
         y=alt.Y(spend_metric, title=f"{spend_metric_label}"),
@@ -45,7 +63,7 @@ def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_yea
         color='name', 
         tooltip=[
             alt.Tooltip('name:N', title="Country"),
-            alt.Tooltip(spend_metric, title=spend_metric_label, format='$,.2f')
+            alt.Tooltip(spend_metric, title=spend_metric_label, format=tooltip_format)
         ]
     )
 
@@ -59,12 +77,15 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
     """
     Creates a bar chart
     """    
+
+    tooltip_format, value_suffix = tooltip_formatter(spend_metric_label)
+
     bar_chart = alt.Chart(avg_data, width='container', height=305).mark_bar(color="teal").encode(
         x=alt.X(f'mean({spend_metric}):Q', title="Total Spend (USD)"),
         y=alt.Y('name:N', title="Country", sort='x'),  
         tooltip=[
             alt.Tooltip('name:N', title="Country"),
-            alt.Tooltip(f'mean({spend_metric}):Q', title=spend_metric_label, format='$,.2f')
+            alt.Tooltip(f'mean({spend_metric}):Q', title=spend_metric_label, format=tooltip_format)
         ]
     ).properties(
         usermeta={"embedOptions": {"actions": False}}
