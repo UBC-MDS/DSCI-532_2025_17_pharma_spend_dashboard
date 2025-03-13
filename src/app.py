@@ -21,8 +21,10 @@ from src.callbacks.charts import charts_callback
 from src.callbacks.buttons import toggle_collapse
 import src.callbacks.countryselection
 
-# Initialize the app
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+
+# Initiatlize the app
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], title="Global Pharmaceutical Spend Dashboard")
+
 server = app.server
 
 cache = Cache(app.server, config={
