@@ -7,7 +7,26 @@ encoded_image = base64.b64encode(open("img/watermark.png", "rb").read()).decode(
 
 # Side bar for global filter
 def create_sidebar(locations, times, min_year, max_year):
+    """
+    Creates a sidebar component for the Dash app.
+    Parameters
+    ----------
+    locations : list of str
+        List of available country names for selection.
+    times : list of int
+        List of available years for selection.
+    min_year : int
+        Minimum year allowed for selection.
+    max_year : int
+        Maximum year allowed for selection.
 
+    Returns
+    -------
+    dbc.Col
+        A Dash Bootstrap Component column containing the sidebar layout 
+        with country and year selectors, spend metrics options, and an 
+        information section about the project.
+    """
     collapse_button = dbc.Button(
                 "About", 
                 id="collapse-button",

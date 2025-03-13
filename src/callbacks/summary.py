@@ -1,6 +1,22 @@
 from dash import Input, Output, callback, State
 
 def summary_callback(data, cache):
+    """
+    Defines a callback function to display dahsboard components
+
+    Parameters
+    ----------
+    data : geopandas.DataFrame
+        The dataset containing country-level economic and healthcare expenditure data.
+    cache : object
+        A caching mechanism to store and retrieve computed results efficiently.
+
+    Returns
+    -------
+    function
+        A memoized callback function that updates summary statistics and growth metrics
+        based on user-selected inputs.
+    """
     @callback(
         Output("gdp-value", "children"),
         Output("health-value", "children"),
@@ -22,9 +38,42 @@ def summary_callback(data, cache):
         State("spend_metric", "value"),
     ) 
     @cache.memoize()  # Cache this function's results
+    
     def update_summary(n_clicks, countries, year_from, year_to, spend_metric):
+        """
+        Updates and returns summary statistics and growth metrics for selected countries
+        and time periods based on the specified spending metric.
 
-        # Show default values if the submit button hasn’t been clicked
+        Parameters
+        ----------
+        n_clicks : int or None
+            The number of times the submit button has been clicked.
+        countries : list of str
+            The selected countries for which the summary statistics are calculated.
+        year_from : int
+            The starting year for filtering the dataset.
+        year_to : int
+            The ending year for filtering the dataset.
+        spend_metric : str
+            The selected spending metric, which can be:
+            - "PC_GDP"
+            - "PC_HEALTHXP"
+            - "USD_CAP"
+            - "TOTAL_SPEND"
+
+        Returns
+        -------
+        tuple
+            A tuple containing:
+            - GDP percentage value (str)
+            - Healthcare expenditure percentage value (str)
+            - Per capita expenditure value (str)
+            - Total spending value (str)
+            - GDP growth value (str) and its corresponding style (dict)
+            - Healthcare expenditure growth value (str) and its corresponding style (dict)
+            - Per capita expenditure growth value (str) and its corresponding style (dict)
+            - Total spending growth value (str) and its corresponding style (dict)
+        """
         if n_clicks is None or n_clicks == 0:
             print("Loading default charts on first load...")
 
@@ -58,17 +107,35 @@ def summary_callback(data, cache):
                 health_growth, health_growth_style,
                 capita_growth, capita_growth_style,
                 total_growth, total_growth_style)
-                
+            
 @callback(
-    [
-        Output("card-gdp", "style"),
-        Output("card-health", "style"),
-        Output("card-capita", "style"),
-        Output("card-total", "style"),
-    ],
-    Input("spend_metric", "value"),
+[
+    Output("card-gdp", "style"),
+    Output("card-health", "style"),
+    Output("card-capita", "style"),
+    Output("card-total", "style"),
+],
+Input("spend_metric", "value"),
 )
 def highlight_selected_card(spend_metric):
+    """
+    Highlights the selected spending metric card in the UI.
+
+    Parameters
+    ----------
+    spend_metric : str
+        The selected spending metric, which can be one of:
+        - "PC_GDP"
+        - "PC_HEALTHXP"
+        - "USD_CAP"
+        - "TOTAL_SPEND"
+
+    Returns
+    -------
+    tuple of dict or None
+        A tuple containing the style for each card. The selected metric receives a highlighted style,
+        while others remain unchanged.
+    """
     highlight_style = {
         "border": "3px solid #008080",  # Teal border "2px solid #808080"
         "borderRadius": "10px",
