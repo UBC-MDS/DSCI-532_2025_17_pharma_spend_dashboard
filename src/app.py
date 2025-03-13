@@ -21,7 +21,7 @@ from src.callbacks.charts import charts_callback
 from src.callbacks.buttons import toggle_collapse
 import src.callbacks.countryselection
 
-# Initiatlize the app
+# Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
