@@ -1,7 +1,9 @@
 from datetime import datetime
 from dash import html, dcc
 import dash_bootstrap_components as dbc
+import base64
 
+encoded_image = base64.b64encode(open("img/watermark.png", "rb").read()).decode('ascii')
 
 # Side bar for global filter
 def create_sidebar(locations, times, min_year, max_year):
@@ -58,7 +60,7 @@ def create_sidebar(locations, times, min_year, max_year):
                 multi=True
             ),
             html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message
-            html.Hr(style={"marginTop": "1.4rem"}),
+            html.Br(),
 
             html.H5('Year', style={'fontWeight': 'bold'}),
             html.P('From', style={'marginBottom': '0.375rem'}),
@@ -75,6 +77,16 @@ def create_sidebar(locations, times, min_year, max_year):
                 value=max_year,  # Default end by the maximum year
                 clearable=False
             ),
+
+            html.Br(),
+            dbc.Button('Submit', id='submit_button', color='primary', className='mt-3', n_clicks=0, 
+                       style={
+                        'width': '100px',
+                        'background-color': '#008080',
+                        'color': 'white',
+                        'margin-top': 10
+                        }),
+                        
             html.Hr(style={"marginTop": "1.4rem"}),
             
             html.H5('Spend Metrics', style={'fontWeight': 'bold'}),
@@ -91,6 +103,7 @@ def create_sidebar(locations, times, min_year, max_year):
             ),
             html.Hr(style={"marginTop": "1.3rem"}),
 
+            html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'width': "70%", "opacity": 0.4, "display": "block"}),
             collapse_button,
             html.Br(),
             html.Br(),
