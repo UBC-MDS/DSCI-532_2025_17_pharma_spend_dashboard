@@ -1,4 +1,4 @@
-from dash import Input, Output, callback
+from dash import Input, Output, callback, State
 
 def summary_callback(data, cache):
     @callback(
@@ -15,13 +15,19 @@ def summary_callback(data, cache):
         Output("total-growth", "children"),
         Output("total-growth", "style"),
 
-        Input("country_select", "value"),
-        Input("start_year_select", "value"),
-        Input("end_year_select", "value"),
-        Input("spend_metric", "value"),
+        Input('submit_button', 'n_clicks'),
+        State("country_select", "value"),
+        State("start_year_select", "value"),
+        State("end_year_select", "value"),
+        State("spend_metric", "value"),
     ) 
     @cache.memoize()  # Cache this function's results
-    def update_summary(countries, year_from, year_to, spend_metric):
+    def update_summary(n_clicks, countries, year_from, year_to, spend_metric):
+
+        # Show default values if the submit button hasn’t been clicked
+        if n_clicks is None or n_clicks == 0:
+            print("Loading default charts on first load...")
+
         filtered_data = data.query("name in @countries and @year_from <= TIME <= @year_to")
 
         if filtered_data.empty:

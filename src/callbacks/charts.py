@@ -1,4 +1,4 @@
-from dash import Input, Output, callback
+from dash import Input, Output, callback, State
 import plotly.express as px
 import altair as alt
 
@@ -23,7 +23,7 @@ def tooltip_formatter(spend_metric_label):
         - value_suffix (str): The suffix to append to tooltip values 
           (e.g., "%" for percentages, "" for currency values).
     """
-    
+
     if "GDP" in spend_metric_label or "Healthcare" in spend_metric_label:
         tooltip_format = ".2f"  # Percentage formatting
         value_suffix = "%"
@@ -213,14 +213,16 @@ def charts_callback(data, cache):
         Output('map_title', 'children'),
         Output('timeseries_title', 'children'),
         Output('bar_title', 'children'),
-        Input('country_select', 'value'),
-        Input('start_year_select', 'value'),
-        Input('end_year_select', 'value'),
+        Input('submit_button', 'n_clicks'),
+        State('country_select', 'value'),
+        State('start_year_select', 'value'),
+        State('end_year_select', 'value'),
         Input('spend_metric', 'value'),
-        Input('spend_metric', 'options')
+        Input('spend_metric', 'options'),
+        prevent_initial_call=False
     )
     @cache.memoize()  # Cache this function's results
-    def create_chart(country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
+    def create_chart(n_clicks, country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
 
         """
         Registers a Dash callback function to generate and update three charts 
@@ -248,6 +250,10 @@ def charts_callback(data, cache):
             - A bar chart (`spec`)
             - Titles for each chart (`children`)
         """
+
+        # Show default values if the submit button hasn’t been clicked
+        if n_clicks is None or n_clicks == 0:
+            print("Loading default charts on first load...")
 
         # Filter data by countries and years
         filtered_data = data[
