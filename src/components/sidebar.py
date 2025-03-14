@@ -27,13 +27,14 @@ def create_sidebar(locations, times, min_year, max_year):
         with country and year selectors, spend metrics options, and an 
         information section about the project.
     """
+
     collapse_button = dbc.Button(
         "About", 
         id="collapse-button",
         outline=True,
         style={
             'width': '100px',
-            'background-color': '#008080',
+            'backgroundColor': '#008080',
             'color': 'white',
             'marginTop': '10px',
             'marginBottom': '10px'
@@ -42,31 +43,32 @@ def create_sidebar(locations, times, min_year, max_year):
 
     collapse_section = dbc.Collapse(
     dbc.Card(
-        dbc.CardBody([
-            html.P(
-                "This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", 
-                style={'fontSize': '14px', 'lineHeight': '1.5'}
-            ),
-            html.P([html.Strong("By: "), "Jason Lee, Daria Khon, Celine Habashy, Catherine Meng"], 
-                   style={'fontSize': '14px', 'lineHeight': '1.5'}),
-            html.P([html.Strong("Data: "), "Organisation for Economic Cooperation and Development"], 
-                   style={'fontSize': '14px', 'lineHeight': '1.5'}),
-            html.P([html.Strong("Source code: "),  html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", 
-                   target="_blank", style={'color': 'blue', 'fontSize': '14px'})], style={'fontSize': '14px', 'lineHeight': '1.5'}),
-            html.P([html.Strong("Last updated: "),  datetime.now().strftime('%B %d, %Y')
-                ], style={'fontSize': '14px', 'lineHeight': '1.5'}),
-        ]),
-        style={
-            'backgroundColor': '#ffffff',  # White background
-            'padding': '5px',
-            'border': '1px solid #ddd',  # Light grey border
-            'borderRadius': '10px',  # Rounded corners
-            'marginTop': '10px'
-        }
-    ),
-    id="collapse",
-    is_open=False
-)
+        dbc.CardBody(
+            [
+                html.P(
+                    "This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", 
+                    style={'fontSize': '14px', 'lineHeight': '1.5'}
+                ),
+                html.P([html.Strong("By: "), "Jason Lee, Daria Khon, Celine Habashy, Catherine Meng"], 
+                    style={'fontSize': '14px', 'lineHeight': '1.5'}),
+                html.P([html.Strong("Data: "), "Organisation for Economic Cooperation and Development"], 
+                    style={'fontSize': '14px', 'lineHeight': '1.5'}),
+                html.P([html.Strong("Source code: "),  html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", 
+                    target="_blank", style={'color': 'blue', 'fontSize': '14px'})], style={'fontSize': '14px', 'lineHeight': '1.5'}),
+                html.P([html.Strong("Last updated: "),  datetime.now().strftime('%B %d, %Y')
+                    ], style={'fontSize': '14px', 'lineHeight': '1.5'}),
+            ]),
+            style={
+                'backgroundColor': '#ffffff',  # White background
+                'padding': '5px',
+                'border': '1px solid #ddd',  # Light grey border
+                'borderRadius': '10px',  # Rounded corners
+                'marginTop': '10px'
+            }
+        ),
+        id="collapse",
+        is_open=False
+    )
 
     sidebar = dbc.Col(
         [
@@ -80,7 +82,8 @@ def create_sidebar(locations, times, min_year, max_year):
                 value=['Canada', 'United States of America', 'Mexico'], 
                 multi=True
             ),
-            html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message
+            html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message placeholder
+            dcc.Interval(id='warning_timer', interval=5000, n_intervals=0, max_intervals=1),  # Auto-hide warning after 3 sec
 
             html.H5('Year', style={'fontWeight': 'bold'}),
             html.P('From', style={'marginBottom': '0.375rem'}),
@@ -98,27 +101,33 @@ def create_sidebar(locations, times, min_year, max_year):
                 clearable=False
             ),
 
-            dbc.Button('Submit', id='submit_button', color='primary', className='mt-3', n_clicks=0, 
-                       style={
-                        'width': '100px',
-                        'background-color': '#008080',
-                        'color': 'white',
-                        'margin-top': 10
-                        }),
+            dbc.Button(
+                'Submit', 
+                id='submit_button', 
+                color='primary', 
+                className='mt-3', 
+                n_clicks=0, 
+                style={
+                    'width': '100px',
+                    'backgroundColor': '#008080',
+                    'color': 'white',
+                    'marginTop': 10
+                }
+            ),
                         
             html.Hr(style={"marginTop": "1.4rem"}),
             
             html.H5('Spend Metrics', style={'fontWeight': 'bold'}),
             dcc.RadioItems(
-                    id='spend_metric',
-                    options=[
-                        {'label': '% of GDP', 'value': 'PC_GDP'},
-                        {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
-                        {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
-                        {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
-                    ],
-                    value='PC_GDP',  # Default selection
-                    labelStyle={'display': 'block', 'marginRight': '0.938rem'}
+                id='spend_metric',
+                options=[
+                    {'label': '% of GDP', 'value': 'PC_GDP'},
+                    {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
+                    {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
+                    {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
+                ],
+                value='PC_GDP',  # Default selection
+                labelStyle={'display': 'block', 'marginRight': '0.938rem'}
             ),
             html.Hr(style={"marginTop": "1.3rem"}),
 
