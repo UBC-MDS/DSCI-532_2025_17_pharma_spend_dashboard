@@ -41,6 +41,10 @@
 
 ## Corner Cases
 
+- When the user attempts to clear all country selections, "Canada" will be set as the default selection, and an error message will appear indicating that at least one country must be selected. The error message will automatically disappear after 5 seconds.
+
+- When the user attempts to select more than 10 countries, any extra selections will be removed, and an error message will appear indicating that a maximum of 10 countries is allowed. The error message will automatically disappear after 5 seconds.
+
 ## Deviations from DSCI_531 best practices
 
 ## Other reflections
