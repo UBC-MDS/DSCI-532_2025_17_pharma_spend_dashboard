@@ -23,7 +23,7 @@ import src.callbacks.countryselection
 
 
 # Initiatlize the app
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], title="Global Pharmaceutical Spend Dashboard")
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], title="Pharmaceutical Spend")
 
 server = app.server
 
