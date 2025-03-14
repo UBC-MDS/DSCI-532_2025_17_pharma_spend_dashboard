@@ -6,9 +6,10 @@
     - Enabled caching for faster updates when loading plots and the summary card.
     - Created a processed data file in binary format (geoparquet).
     - Added a submit button to improve execution efficiency.
+    
+    **Overall reflection on performance:** Over the course of the project we have improved our performance significatntly by preprocessing data, implementing caching and other optimization. It takes around 5-7 seconds to load new vizualizations when filters are updated, which is comparatively fast but could been improved further, if time permitted. Our main inefficiency seems to be in the callback function, where one script controls many outputs. To further enhance performance, we could explore: decoupling callbacks by splitting them into smaller, more specialized functions or leveraging vectorized computations for faster data transformations.
 
 - Minor implementations:
-  
     Dashboard:
     - Adjusted the bar plot height and sidebar spacing for better styling.
     - Added a watermark image to the sidebar.
