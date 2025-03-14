@@ -223,7 +223,6 @@ def charts_callback(data, cache):
     )
     @cache.memoize()  # Cache this function's results
     def create_chart(n_clicks, country_select, start_year_select, end_year_select, spend_metric, spend_metric_options):
-
         """
         Registers a Dash callback function to generate and update three charts 
         (map, time series, and bar chart) based on user-selected filters.
@@ -293,3 +292,4 @@ def charts_callback(data, cache):
         )
 
         return map_chart, timeseries_chart.to_dict(format="vega"), bar_chart.to_dict(format="vega"), map_title, timeseries_title, bar_title
+    return create_chart
