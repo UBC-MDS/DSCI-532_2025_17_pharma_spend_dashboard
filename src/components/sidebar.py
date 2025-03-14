@@ -27,13 +27,14 @@ def create_sidebar(locations, times, min_year, max_year):
         with country and year selectors, spend metrics options, and an 
         information section about the project.
     """
+
     collapse_button = dbc.Button(
         "About", 
         id="collapse-button",
         outline=True,
         style={
             'width': '100px',
-            'background-color': '#008080',
+            'backgroundColor': '#008080',
             'color': 'white',
             'marginTop': '10px',
             'marginBottom': '10px'
@@ -42,31 +43,32 @@ def create_sidebar(locations, times, min_year, max_year):
 
     collapse_section = dbc.Collapse(
     dbc.Card(
-        dbc.CardBody([
-            html.P(
-                "This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", 
-                style={'fontSize': '14px', 'lineHeight': '1.5'}
-            ),
-            html.P([html.Strong("By: "), "Jason Lee, Daria Khon, Celine Habashy, Catherine Meng"], 
-                   style={'fontSize': '14px', 'lineHeight': '1.5'}),
-            html.P([html.Strong("Data: "), "Organisation for Economic Cooperation and Development"], 
-                   style={'fontSize': '14px', 'lineHeight': '1.5'}),
-            html.P([html.Strong("Source code: "),  html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", 
-                   target="_blank", style={'color': 'blue', 'fontSize': '14px'})], style={'fontSize': '14px', 'lineHeight': '1.5'}),
-            html.P([html.Strong("Last updated: "),  datetime.now().strftime('%B %d, %Y')
-                ], style={'fontSize': '14px', 'lineHeight': '1.5'}),
-        ]),
-        style={
-            'backgroundColor': '#ffffff',  # White background
-            'padding': '5px',
-            'border': '1px solid #ddd',  # Light grey border
-            'borderRadius': '10px',  # Rounded corners
-            'marginTop': '10px'
-        }
-    ),
-    id="collapse",
-    is_open=False
-)
+        dbc.CardBody(
+            [
+                html.P(
+                    "This Dash app was developed by Team 17 of the MDS program to provide insights into global pharmaceutical spending.", 
+                    style={'fontSize': '14px', 'lineHeight': '1.5'}
+                ),
+                html.P([html.Strong("By: "), "Jason Lee, Daria Khon, Celine Habashy, Catherine Meng"], 
+                    style={'fontSize': '14px', 'lineHeight': '1.5'}),
+                html.P([html.Strong("Data: "), "Organisation for Economic Cooperation and Development"], 
+                    style={'fontSize': '14px', 'lineHeight': '1.5'}),
+                html.P([html.Strong("Source code: "),  html.A("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard", 
+                    target="_blank", style={'color': 'blue', 'fontSize': '14px'})], style={'fontSize': '14px', 'lineHeight': '1.5'}),
+                html.P([html.Strong("Last updated: "),  datetime.now().strftime('%B %d, %Y')
+                    ], style={'fontSize': '14px', 'lineHeight': '1.5'}),
+            ]),
+            style={
+                'backgroundColor': '#ffffff',  # White background
+                'padding': '5px',
+                'border': '1px solid #ddd',  # Light grey border
+                'borderRadius': '10px',  # Rounded corners
+                'marginTop': '10px'
+            }
+        ),
+        id="collapse",
+        is_open=False
+    )
 
     sidebar = dbc.Col(
         [
@@ -107,9 +109,9 @@ def create_sidebar(locations, times, min_year, max_year):
                 n_clicks=0, 
                 style={
                     'width': '100px',
-                    'background-color': '#008080',
+                    'backgroundColor': '#008080',
                     'color': 'white',
-                    'margin-top': 10
+                    'marginTop': 10
                 }
             ),
                         

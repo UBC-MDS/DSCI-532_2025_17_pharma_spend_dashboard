@@ -22,6 +22,6 @@ def toggle_collapse(n, is_open):
         The new state of the collapsible component. It toggles if the button has been clicked
         at least once; otherwise, it remains unchanged.
     """
-    print(n)  # The number of times the button has been clicked
-    print(is_open)  # Whether the collapse is open or not
+    # print(n)  # The number of times the button has been clicked
+    # print(is_open)  # Whether the collapse is open or not
     return not is_open if n else is_open
