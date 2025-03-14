@@ -20,4 +20,6 @@ dependencies:
         - vegafusion==1.6.9
         - vegafusion-python-embed==1.6.9
         - Flask==2.2.2
+        - flask_caching==2.3.1
         - Werkzeug==2.2.2
+        - pytest==8.3.5
