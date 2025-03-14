@@ -2,23 +2,42 @@
 
 ## Current Implementations (as of milestone 4)
 - Major implementations:
-    - 
-- Minor implementations:
+   Performance Improvements
     - Enabled caching for faster updates when loading plots and the summary card.
+    - Created a processed data file in binary format (geojson file and geoparquet).
+    - Added a submit button to improve execution efficiency.
+
+- Minor implementations:
+  
+    Dashboard:
     - Adjusted the bar plot height and sidebar spacing for better styling.
     - Added a watermark image to the sidebar.
     - Based on peer feedback, updated tooltips to display values in USD and rounded numbers to two significant digits.
     - Removed the three-dot menu from the bar plot and time series plot.
     - Added a custom favicon and set the tab title.
-    - Created a processed data file in binary format.
     - Specified the VegaFusion package version in the Conda environment file to align with the Python requirements file.
-    - Added a submit button to improve execution efficiency.
-    - Included docstrings in charts.py
-    - Introduced a title formatter function for more flexible chart name changes.
-    - Implemented tooltip formatting logic.
-    - Improved data loading speed by adding a Parquet version of the dataset (binary file format).
+    - Added a title formatter function for more flexible chart name changes.
+    - Added logic that controls tooltip formatting.
+    - The choropleth map now uses a binary color scale instead of a diverging one. Choropleth color scale ranges from white to a burgundy color.
+    - The "country" label has been removed from the legend of the time series chart and the y-axis of the bar chart to avoid redundancy
+    - "USD" has been removed from chart titles to avoid redundancy
+    - The dashboard title has been shortened for conciseness and design purposes
+    - Country selection has now been configured to have a minimum selection of 1 country. "Canada" is now the default country if the user attempts to clear the selection.
+
+    Readme:
+    - Motivation section has been updated
+    - Badges have been added
+    - New logo has been added
+    - GIF has been updated to reflect dashboard updates
+ 
+    Challenging:
+    - Added docstrings to functions (Challenging)
+    - Created tests for callbacks and sidebar
+    - Added relevant code comments 
 
 ## Differences compared to initial proposal / sketch
+- Pie chart has been removed due to redundancy in information conveyed together with the bar chart
+- Radio buttons moved to the left side bar
 
 ## Corner Cases
 
@@ -28,8 +47,8 @@
 1. What the dashboard does well
 - Our dashboard is well-styled, and nicely laid out with a teal theme
   
-3. Limitations of the dashboard
+2. Limitations of the dashboard
 - Our data set still has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. Our team will discuss how to address this limitations (removing n/a values, imputations, other) for the future milestones.
   
 3. Good potential future improvements and additions
-4. Challenging
+
