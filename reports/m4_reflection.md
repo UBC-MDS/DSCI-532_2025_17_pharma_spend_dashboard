@@ -53,13 +53,13 @@
 - Added a white-to-burgundy color scale that provides better contrast on the map.
 - We've optimized the dashboard for speed by implementing caching and using binary file formats like GeoJSON and GeoParquet. 
 - Faster response times make for a seamless experience when switching between different countries and metrics.
-- Adding a submit button was a simple but effective way to improve efficiency—now, calculations only run when needed instead of every time a selection changes.
+- Adding a submit button was a great way to prevents the dashboard from recalculating every time a selection changes, running updates only when the user is ready. This keeps everything faster and more efficient.
 - Tooltips now display values in a cleaner format (rounded to two significant digits), making them more readable.
-- Based on feedback, we removed redundant labels from the y-axis of the bar chart and the legend in the time series chart, creating a cleaner and more professional look.
+- We removed redundant labels from the y-axis of the bar chart and the legend in the time series chart, creating a cleaner and more professional look.
 - We’ve made sure that titles, legends, and axis labels are all formatted in a way that makes sense and doesn’t overwhelm the user with excessive detail.
   
 2. Limitations of the dashboard
-- Our data set still has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. 
+- Our data set still has a fair amount of missing values, especially for the earlier years (1970s to 1990s). As a result, directly comparing averages across countries with varying levels of data completeness would be misleading for the user. To address this, we have added a disclaimer button next to the year dropdown. This button provides users with a clear notice about potential data gaps and advises caution when interpreting trends over time.
   
 3. Good potential future improvements and additions
 - Users could hover over countries on the map to instantly see key metrics.
