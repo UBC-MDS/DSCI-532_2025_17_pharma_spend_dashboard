@@ -86,7 +86,33 @@ def create_sidebar(locations, times, min_year, max_year):
             html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message placeholder
             dcc.Interval(id='warning_timer', interval=5000, n_intervals=0, max_intervals=1),  # Auto-hide warning after 3 sec
 
-            html.H5('Year', style={'fontWeight': 'bold'}),
+            html.Div([
+                html.H5('Year', style={'fontWeight': 'bold', 'lineHeight': '1.2', 'marginRight': '10px'}),
+                dbc.Button("ℹ️", id="year-info-button", color="light", size="sm", 
+                           style={'backgroundColor': 
+                                  'transparent', 
+                                  'borderRadius': '30%', 
+                                  'width': '18px', 
+                                  'height': '18px', 
+                                  'padding': '0', 
+                                  'fontSize': '12px',
+                                  'position': 'relative', 
+                                  'top': '-4px', 
+                                  'alignSelf':'center'})
+            ], style={'display': 'flex', 'alignItems': 'center'}),
+
+            # Popover for Year Explanation
+            dbc.Popover(
+            [
+                dbc.PopoverHeader("Disclaimer"),
+                dbc.PopoverBody("There is varying data missingness across the dataset (mostly 1970 - 1999) which may affect cross-country comparisons. \n"
+                                "Interpret results with caution."),
+            ],
+            id="year-info-popover",
+            target="year-info-button",
+            trigger="click"
+            ),
+
             html.P('From', style={'marginBottom': '0.375rem'}),
             dcc.Dropdown(
                 id='start_year_select',
