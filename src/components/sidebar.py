@@ -9,14 +9,15 @@ encoded_image = base64.b64encode(open("img/watermark.png", "rb").read()).decode(
 def create_sidebar(locations, times, min_year, max_year):
 
     collapse_button = dbc.Button(
-                "About", 
-                id="collapse-button",
-                outline=True,
-                style={
-                    'width': '100px',
-                    'background-color': '#008080',
-                    'color': 'white',
-                    'margin-top': 10
+        "About", 
+        id="collapse-button",
+        outline=True,
+        style={
+            'width': '100px',
+            'background-color': '#008080',
+            'color': 'white',
+            'marginTop': '10px',
+            'marginBottom': '10px'
         }
     )
 
@@ -41,6 +42,7 @@ def create_sidebar(locations, times, min_year, max_year):
             'padding': '5px',
             'border': '1px solid #ddd',  # Light grey border
             'borderRadius': '10px',  # Rounded corners
+            'marginTop': '10px'
         }
     ),
     id="collapse",
@@ -60,7 +62,6 @@ def create_sidebar(locations, times, min_year, max_year):
                 multi=True
             ),
             html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message
-            html.Br(),
 
             html.H5('Year', style={'fontWeight': 'bold'}),
             html.P('From', style={'marginBottom': '0.375rem'}),
@@ -78,7 +79,6 @@ def create_sidebar(locations, times, min_year, max_year):
                 clearable=False
             ),
 
-            html.Br(),
             dbc.Button('Submit', id='submit_button', color='primary', className='mt-3', n_clicks=0, 
                        style={
                         'width': '100px',
@@ -105,7 +105,6 @@ def create_sidebar(locations, times, min_year, max_year):
 
             html.Img(src='data:image/png;base64,{}'.format(encoded_image), style={'width': "70%", "opacity": 1, "display": "block"}),
             collapse_button,
-            html.Br(),
             html.Br(),
             collapse_section
 
