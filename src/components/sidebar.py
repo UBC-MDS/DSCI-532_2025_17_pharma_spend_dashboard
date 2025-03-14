@@ -72,7 +72,8 @@ def create_sidebar(locations, times, min_year, max_year):
 
     sidebar = dbc.Col(
         [
-            html.H2('Pharmaceutical Spend', style={'fontWeight': 'bold'}),
+            html.H2('Pharmaceutical', style={'fontWeight': 'bold'}),
+            html.H2('Spend', style={'fontWeight': 'bold'}),
             html.Hr(style={"marginTop": "2rem"}),
 
             html.H5('Country', style={'fontWeight': 'bold'}),
