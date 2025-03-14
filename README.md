@@ -1,5 +1,12 @@
 # Global Pharmaceutical Spending Dashboard
 
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+![Python 3.12](https://img.shields.io/badge/Python-3.12-green)
+![Repo Size](https://img.shields.io/github/repo-size/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard)
+![Last Commit](https://img.shields.io/github/last-commit/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard)
+
+
+
 Dashboard for visualization of pharmaceutical drug spending across the world.
 
 ![logo](/img/watermark.png)
