@@ -55,9 +55,9 @@ def title_formatter(spend_metric_label):
     elif spend_metric_label == "% of Healthcare":
         return "Pharma Spend as a % of Healthcare"
     elif spend_metric_label == "Spend Per Capita (USD)":
-        return "Pharma Spend Per Capita (USD)"
+        return "Pharma Spend Per Capita"
     elif spend_metric_label == "Total Spend (USD B)":
-        return "Total Pharma Spend (USD B)"
+        return "Total Pharma Spend"
 
 def create_map_chart(filtered_data, spend_metric, spend_metric_label):
     """
@@ -146,7 +146,7 @@ def create_time_chart(filtered_data, spend_metric, spend_metric_label, start_yea
     line = alt.Chart(filtered_data, width='container').mark_line().encode(
         x=alt.X('TIME:Q', title="Year").axis(format="d"),
         y=alt.Y(spend_metric, title=f"{spend_metric_label}"),
-        color=alt.Color('name', legend=alt.Legend(title="Country"), scale=alt.Scale(scheme="dark2")),
+        color=alt.Color('name', legend=alt.Legend(title=None), scale=alt.Scale(scheme="dark2")),
         tooltip=['name', spend_metric]
     )
 
@@ -194,7 +194,7 @@ def create_bar_chart(avg_data, spend_metric, spend_metric_label):
 
     bar_chart = alt.Chart(avg_data, width='container', height=305).mark_bar(color="teal").encode(
         x=alt.X(f'mean({spend_metric}):Q', title=spend_metric_label),
-        y=alt.Y('name:N', title="Country", sort='x'),  
+        y=alt.Y('name:N', title=None, sort='x'),  
         tooltip=[
             alt.Tooltip('name:N', title="Country"),
             alt.Tooltip(f'mean({spend_metric}):Q', title=spend_metric_label, format=tooltip_format)
