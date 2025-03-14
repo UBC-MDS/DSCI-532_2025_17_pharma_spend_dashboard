@@ -4,11 +4,12 @@
 - Major implementations:
    Performance Improvements
     - Enabled caching for faster updates when loading plots and the summary card.
-    - Created a processed data file in binary format (geojson file and geoparquet).
+    - Created a processed data file in binary format (geoparquet).
     - Added a submit button to improve execution efficiency.
+    
+    **Overall reflection on performance:** Over the course of the project we have improved our performance significatntly by preprocessing data, implementing caching and other optimization. It takes around 5-7 seconds to load new vizualizations when filters are updated, which is comparatively fast but could been improved further, if time permitted. Our main inefficiency seems to be in the callback function, where one script controls many outputs. To further enhance performance, we could explore: decoupling callbacks by splitting them into smaller, more specialized functions or leveraging vectorized computations for faster data transformations.
 
 - Minor implementations:
-  
     Dashboard:
     - Adjusted the bar plot height and sidebar spacing for better styling.
     - Added a watermark image to the sidebar.
@@ -38,6 +39,7 @@
 ## Differences compared to initial proposal / sketch
 - Pie chart has been removed due to redundancy in information conveyed together with the bar chart
 - Radio buttons moved to the left side bar
+- Dashboard title has been shortened for better space alignment
 
 ## Corner Cases
 
@@ -46,12 +48,13 @@
 - When the user attempts to select more than 10 countries, any extra selections will be removed, and an error message will appear indicating that a maximum of 10 countries is allowed. The error message will automatically disappear after 5 seconds.
 
 ## Deviations from DSCI_531 best practices
+- In our design we attempted to adhere to all DSCI_531 best practices
 
 ## Other reflections
 1. What the dashboard does well
 - Our dashboard is well-styled, and nicely laid out with a teal theme.
 - Added a white-to-burgundy color scale that provides better contrast on the map.
-- We've optimized the dashboard for speed by implementing caching and using binary file formats like GeoJSON and GeoParquet. 
+- We've optimized the dashboard for speed by implementing caching and using binary file formats like GeoParquet. 
 - Faster response times make for a seamless experience when switching between different countries and metrics.
 - Adding a submit button was a great way to prevents the dashboard from recalculating every time a selection changes, running updates only when the user is ready. This keeps everything faster and more efficient.
 - Tooltips now display values in a cleaner format (rounded to two significant digits), making them more readable.
