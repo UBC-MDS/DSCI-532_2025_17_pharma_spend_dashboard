@@ -80,7 +80,8 @@ def create_sidebar(locations, times, min_year, max_year):
                 value=['Canada', 'United States of America', 'Mexico'], 
                 multi=True
             ),
-            html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message
+            html.Div(id="warning", style={"color": "red", "marginTop": "0.625rem"}),  # Warning message placeholder
+            dcc.Interval(id='warning_timer', interval=5000, n_intervals=0, max_intervals=1),  # Auto-hide warning after 3 sec
 
             html.H5('Year', style={'fontWeight': 'bold'}),
             html.P('From', style={'marginBottom': '0.375rem'}),
@@ -98,27 +99,33 @@ def create_sidebar(locations, times, min_year, max_year):
                 clearable=False
             ),
 
-            dbc.Button('Submit', id='submit_button', color='primary', className='mt-3', n_clicks=0, 
-                       style={
-                        'width': '100px',
-                        'background-color': '#008080',
-                        'color': 'white',
-                        'margin-top': 10
-                        }),
+            dbc.Button(
+                'Submit', 
+                id='submit_button', 
+                color='primary', 
+                className='mt-3', 
+                n_clicks=0, 
+                style={
+                    'width': '100px',
+                    'background-color': '#008080',
+                    'color': 'white',
+                    'margin-top': 10
+                }
+            ),
                         
             html.Hr(style={"marginTop": "1.4rem"}),
             
             html.H5('Spend Metrics', style={'fontWeight': 'bold'}),
             dcc.RadioItems(
-                    id='spend_metric',
-                    options=[
-                        {'label': '% of GDP', 'value': 'PC_GDP'},
-                        {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
-                        {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
-                        {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
-                    ],
-                    value='PC_GDP',  # Default selection
-                    labelStyle={'display': 'block', 'marginRight': '0.938rem'}
+                id='spend_metric',
+                options=[
+                    {'label': '% of GDP', 'value': 'PC_GDP'},
+                    {'label': '% of Healthcare', 'value': 'PC_HEALTHXP'},
+                    {'label': 'Spend Per Capita (USD)', 'value': 'USD_CAP'},
+                    {'label': 'Total Spend (USD B)', 'value': 'TOTAL_SPEND'},
+                ],
+                value='PC_GDP',  # Default selection
+                labelStyle={'display': 'block', 'marginRight': '0.938rem'}
             ),
             html.Hr(style={"marginTop": "1.3rem"}),
 
