@@ -45,10 +45,10 @@ git clone https://github.com/UBC-MDS/DSCI-532_2025_17_pharma_spend_dashboard
 From the project root directory, create and activate the virtual environment
 
 ```{bash}
-conda create --name pharma_spend --file requirements.txt
+conda env create -f environment.yml
 ```
 ```{bash}
-conda activate pharma_spend
+conda activate pharma_spend_dashboard
 ```
 
 Run dashboard locally (To activate debug mode comment out change the argument in `app.run()` to `app.run(debug=True)`)

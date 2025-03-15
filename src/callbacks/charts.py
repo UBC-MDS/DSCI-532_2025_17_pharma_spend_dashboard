@@ -93,7 +93,7 @@ def create_map_chart(filtered_data, spend_metric, spend_metric_label):
               featureidkey = 'properties.LOCATION',  
               color=spend_metric,
               hover_data = {'name' : True, spend_metric: ':.2f', 'LOCATION': False},
-              color_continuous_scale="tealrose"
+              color_continuous_scale=["#a43b6c", "#fecfe5"] 
             )
     
     map_chart.update_coloraxes(reversescale=True)
